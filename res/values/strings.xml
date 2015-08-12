@@ -8,6 +8,7 @@
     <string name="confirm">确定</string>
     <string name="cancle">取消</string>
     <string name="quit">退出当前账号</string>
+    <string name="app_sd_cache_dir">healthnavcache</string>
     <string name="headimg">/headimg.png</string>
     <string name="localhost">http://192.168.0.199:8080</string>
 

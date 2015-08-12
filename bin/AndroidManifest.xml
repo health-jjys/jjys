@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- 这个权限用于进行网络定位 -->
+    <!-- 这个权限用于进行网络定位  -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION">
     </uses-permission>
     <!-- 这个权限用于访问GPS定位 -->
@@ -41,9 +41,15 @@
     <!-- 允许应用读取低级别的系统日志文件 -->
     <uses-permission android:name="android.permission.READ_LOGS">
     </uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 
-    <application android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:theme="@style/myNoTitle">
-        <activity android:label="@string/title_activity_guide" android:name="com.yc.health.GuideActivity">
+    <application android:name="com.yc.health.ApplicationBaiduMap" android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:theme="@style/myNoTitle">
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="qsdHPSzHTRm08mp3w2nrEocK" />
+        <activity android:label="@string/app_name" android:name="com.yc.health.GuideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -61,6 +67,8 @@
         </activity>
         <activity android:label="@string/title_activity_test" android:name="com.yc.health.ConstitutionSelectorActivity">
         </activity>
+        <activity android:name=".DoctNavActivity"></activity>
+        <activity android:name=".DoctNavGuide"></activity>
         <activity android:name="com.yc.health.TestResultActivity">
         </activity>
         <activity android:label="@string/title_activity_test" android:name="com.yc.health.TestActivity">
@@ -87,9 +95,20 @@
         </activity>
         <activity android:name="com.yc.health.VideoDetailActivity">
         </activity>
+        <!-- 百度定位 -->
+<service
+          android:name="com.baidu.location.f"
+          android:enabled="true"
+          android:process=":remote" >
+          <intent-filter>
+              <action android:name="com.baidu.location.service_v2.2" >
+              </action>
+          </intent-filter>
+      </service>
+ 
     <meta-data android:name="UMENG_APPKEY" android:value="55c1e70967e58e2938000e3a"/>
 <activity android:configChanges="orientation|keyboard" android:launchMode="singleTask" android:name="com.umeng.socialize.view.ShareActivity" android:noHistory="true" android:theme="@style/Theme.UMDialog" android:windowSoftInputMode="stateVisible|adjustResize"/>
-<activity android:configChanges="keyboardHidden|orientation|screenSize" android:exported="true" android:name=".wxapi.WXEntryActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+<activity android:configChanges="keyboardHidden|orientation|screenSize" android:exported="true" android:name=".wxapi.WXEntryActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>      
 </application>
 
 <uses-permission android:name="android.permission.GET_TASKS"/>
