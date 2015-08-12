@@ -1,0 +1,85 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lifesphere"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView 
+	    android:layout_width="match_parent"
+	  	android:layout_height="match_parent"
+	  	android:background="@drawable/bg"/>
+    
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical" >
+	
+	    <RelativeLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="10dp"
+	        android:layout_marginLeft="20dp"
+	    	android:layout_marginRight="20dp">
+	        <ImageView 
+	            android:id="@+id/lifeSphere_back"
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/btn_back_nor"/>
+	        
+	        <ImageView
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_centerHorizontal="true"
+	        	android:src="@drawable/title_srdz"/>
+	    </RelativeLayout>
+	    
+	    <com.yc.health.widget.CustomScrollView 
+	        android:layout_width="match_parent"
+	        android:layout_height="0dp"
+	        android:layout_marginBottom="20dp"
+	        android:layout_weight="1"
+	        android:fillViewport="true"
+	        android:scrollbars="none">
+	        
+	        <LinearLayout 
+	            android:layout_width="match_parent"
+	    		android:layout_height="wrap_content"
+	    		android:orientation="vertical">
+	    		
+			    <com.yc.health.widget.GridCommodity
+		            android:id="@+id/lifeSphere_grid"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:gravity="center"
+		            android:layout_marginTop="20dp"
+		            android:horizontalSpacing="10dp"
+		            android:verticalSpacing="20dp"
+		            android:listSelector="@color/transparent"
+		            android:numColumns="4"
+		            android:stretchMode="columnWidth" />
+			    
+			    <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_horizontal"
+		            android:layout_marginTop="20dp"
+		            android:layout_marginBottom="20dp"
+		            android:text="为您推荐"
+		            android:textSize="@dimen/title"
+		            android:textColor="@color/ajk_selected" />
+			    
+			    <ListView 
+			        android:id="@+id/lifeSphere_list"
+			        android:layout_width="match_parent"
+			    	android:layout_height="0dp"
+			    	android:layout_weight="1"
+			    	android:layout_marginLeft="20dp"
+			    	android:layout_marginRight="20dp"
+			    	android:divider="@color/line"
+			        android:dividerHeight="1dp"
+			        android:scrollbars="none"
+			    	android:listSelector="@color/transparent"/>
+	    	</LinearLayout>
+	    </com.yc.health.widget.CustomScrollView>
+	</LinearLayout>
+</FrameLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    
+    <CheckBox
+        android:id="@+id/familyselector_item_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@drawable/radio_rdo_nor"
+        android:button="@null"
+        android:focusable="false"/>
+    
+    <ImageButton
+        android:id="@+id/familyselector_item_delete"
+        android:layout_toRightOf="@id/familyselector_item_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/btn_sc_pre"/>
+    
+    <TextView
+        android:id="@+id/familyselector_info_item"
+        android:layout_toRightOf="@id/familyselector_item_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:padding="10dp"
+        android:text="我的家人         平和质"
+        android:textSize="@dimen/second_title" />
+
+</RelativeLayout>

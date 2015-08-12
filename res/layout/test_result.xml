@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/test_result"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <ImageView 
+	    android:layout_width="match_parent"
+	  	android:layout_height="match_parent"
+	  	android:background="@drawable/bg"/>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+   		android:layout_height="match_parent"
+   		android:orientation="vertical">
+   		
+	    <RelativeLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="10dp"
+	        android:layout_marginLeft="20dp"
+	    	android:layout_marginRight="20dp">
+	        <ImageView 
+	            android:id="@+id/constitutionshow_back"
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/btn_back_nor"/>
+	        
+	        <ImageView
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_centerHorizontal="true"
+	        	android:src="@drawable/title_ajk"/>
+		</RelativeLayout>
+	
+	    <com.yc.health.widget.CustomScrollView 
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_marginTop="10dp"
+	        android:layout_marginBottom="20dp"
+	        android:fillViewport="true"
+	        android:scrollbars="none">
+	        
+	        <LinearLayout 
+	            android:layout_width="match_parent"
+	    		android:layout_height="match_parent"
+	    		android:layout_marginLeft="20dp"
+			    android:layout_marginRight="20dp"
+	    		android:orientation="vertical">
+				    
+	            <FrameLayout 
+		            android:layout_width="match_parent"
+			    	android:layout_height="wrap_content">
+			    	
+			    	<ImageView 
+					    android:layout_width="match_parent"
+					  	android:layout_height="wrap_content"
+					  	android:background="@drawable/knowledge_title"/>
+			    	
+			    	<LinearLayout 
+			    	    android:layout_width="match_parent"
+					  	android:layout_height="wrap_content"
+					  	android:orientation="vertical">
+					    <TextView  
+					       android:layout_width="wrap_content"
+					       android:layout_height="wrap_content"
+					       android:layout_gravity="center_horizontal"
+					       android:layout_marginTop="5dp"
+					       android:text="您的体质是："
+					       android:textColor="@color/ajk"
+					       android:textSize="@dimen/second_title"/>
+					    
+					    <TextView  
+					       android:id="@+id/constitutionshow_constitution"
+					       android:layout_width="wrap_content"
+					       android:layout_height="wrap_content"
+					       android:layout_gravity="center_horizontal"
+					       android:layout_marginTop="5dp"
+					       android:text="平和质"
+					       android:textColor="@color/ajk_selected"
+					       android:textSize="@dimen/title"/>
+					    
+					    <TextView  
+					       android:id="@+id/constitutionshow_what"
+					       android:layout_width="wrap_content"
+					       android:layout_height="wrap_content"
+					       android:layout_marginTop="5dp"
+					       android:layout_gravity="center_horizontal"
+					       android:drawableLeft="@drawable/btn_dw_nor"
+					       android:text="什么是平和质"
+					       android:textColor="@color/ajk"
+					       android:textSize="@dimen/text"/>
+					    
+					    <TextView  
+					       android:id="@+id/constitutionshow_all"
+					       android:layout_width="wrap_content"
+					       android:layout_height="wrap_content"
+					       android:layout_marginTop="5dp"
+					       android:layout_gravity="center_horizontal"
+					       android:drawableLeft="@drawable/btn_dw_nor"
+					       android:text="查看所有体质"
+					       android:textColor="@color/ajk"
+					       android:textSize="@dimen/text"/>
+					    
+					    <TextView  
+					       android:layout_width="wrap_content"
+					       android:layout_height="wrap_content"
+					       android:layout_gravity="center_horizontal"
+					       android:layout_marginTop="10dp"
+					       android:text="        根据您的体质，我们为您精心推荐了食材和运动"
+					       android:textColor="@color/ajk"
+					       android:textSize="@dimen/second_title"/>
+				    </LinearLayout>
+			    </FrameLayout>
+			    
+			    <TextView  
+			       android:layout_width="wrap_content"
+			       android:layout_height="wrap_content"
+			       android:layout_gravity="center_horizontal"
+			       android:layout_marginTop="10dp"
+			       android:text="您适合的食材"
+			       android:textColor="@color/ajk_selected"
+			       android:textSize="@dimen/text"/>
+			    
+			    <com.yc.health.widget.GridCommodity
+		            android:id="@+id/constitutionshow_food"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:gravity="center"
+		            android:horizontalSpacing="19dp"
+		            android:verticalSpacing="19dp"
+		            android:listSelector="@color/transparent"
+		            android:numColumns="3"
+		            android:stretchMode="columnWidth" />
+			    
+			    <TextView  
+			       android:layout_width="wrap_content"
+			       android:layout_height="wrap_content"
+			       android:layout_gravity="center_horizontal"
+			       android:layout_marginTop="20dp"
+			       android:text="您适合的食谱"
+			       android:textColor="@color/ajk_selected"
+			       android:textSize="@dimen/text"/>
+			    
+			    <com.yc.health.widget.GridCommodity
+		            android:id="@+id/constitutionshow_recipe"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:gravity="center"
+		            android:horizontalSpacing="19dp"
+		            android:verticalSpacing="19dp"
+		            android:listSelector="@color/transparent"
+		            android:numColumns="3"
+		            android:stretchMode="columnWidth" />
+			    
+			    <TextView  
+			       android:layout_width="wrap_content"
+			       android:layout_height="wrap_content"
+			       android:layout_gravity="center_horizontal"
+			       android:layout_marginTop="20dp"
+			       android:text="您适合的运动"
+			       android:textColor="@color/ajk_selected"
+			       android:textSize="@dimen/text"/>
+			    
+			    <com.yc.health.widget.GridCommodity
+		            android:id="@+id/constitutionshow_sport"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:gravity="center"
+		            android:horizontalSpacing="19dp"
+		            android:verticalSpacing="19dp"
+		            android:listSelector="@color/transparent"
+		            android:numColumns="3"
+		            android:stretchMode="columnWidth" />
+		    </LinearLayout>
+		</com.yc.health.widget.CustomScrollView>
+	</LinearLayout>
+</FrameLayout>

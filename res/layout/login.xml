@@ -1,0 +1,110 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/home_img"/>
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+        
+        <RelativeLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="20dp"
+	    	android:layout_marginRight="20dp">
+	        <ImageView 
+	            android:id="@+id/login_back"
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/btn_back_nor"/>
+	        
+	        <ImageView
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_centerHorizontal="true"
+	        	android:src="@drawable/title_grxx"/>
+	    </RelativeLayout>
+	    
+        <ImageView 
+            android:id="@+id/login_login"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:layout_alignParentBottom="true"
+	        android:layout_marginTop="30dp"
+	        android:layout_marginBottom="30dp"
+	        android:background="@drawable/btn_login_nor"/>
+        
+        <RelativeLayout 
+            android:layout_above="@id/login_login"
+            android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_centerInParent="true"
+	        android:layout_marginLeft="40dp"
+	    	android:layout_marginRight="40dp">
+	        
+            <EditText 
+	            android:id="@+id/login_loginName"
+	        	android:layout_width="match_parent"
+	        	android:layout_height="wrap_content"
+	        	android:gravity="center"
+	        	android:layout_marginTop="100dp"
+	        	android:padding="5dp"
+	        	android:singleLine="true"
+	        	android:hint="请输入您的VIP卡号"
+	        	android:textColorHint="@color/login"
+	        	android:textColor="@color/login"
+	        	android:textSize="@dimen/second_title"/>
+            
+            <EditText 
+	            android:id="@+id/login_password"
+	            android:layout_below="@id/login_loginName"
+	        	android:layout_width="match_parent"
+	        	android:layout_height="wrap_content"
+	        	android:gravity="center"
+	        	android:layout_marginTop="18dp"
+	        	android:padding="5dp"
+	        	android:singleLine="true"
+	        	android:inputType="textPassword"
+	        	android:hint="请输入您的VIP密码"
+	        	android:textColorHint="@color/login"
+	        	android:textColor="@color/login"
+	        	android:textSize="@dimen/second_title"/>
+            
+            <RelativeLayout 
+                android:layout_below="@id/login_password"
+                android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_centerHorizontal="true">
+	        	
+                <Button 
+                    android:id="@+id/login_info"
+		        	android:layout_width="wrap_content"
+		        	android:layout_height="wrap_content"
+		        	android:text="入会需知"
+		        	android:textColor="@color/forgetpsw"
+		        	android:textSize="@dimen/text"
+		        	android:background="@color/transparent"/>
+                
+                <Button 
+                    android:id="@+id/login_forgetPsw"
+                    android:layout_toRightOf="@id/login_info"
+		        	android:layout_width="wrap_content"
+		        	android:layout_height="wrap_content"
+		        	android:layout_marginLeft="20dp"
+		        	android:text="忘记密码"
+		        	android:textColor="@color/forgetpsw"
+		        	android:textSize="@dimen/text"
+		        	android:background="@color/transparent"/>
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>

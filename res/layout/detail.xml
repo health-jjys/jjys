@@ -1,0 +1,270 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView 
+	    android:layout_width="match_parent"
+	  	android:layout_height="match_parent"
+	  	android:background="@drawable/bg"/>
+    
+    <com.yc.health.widget.CustomScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none" >
+		<LinearLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:orientation="vertical" >
+		    
+		    <ImageView 
+			    android:layout_width="match_parent"
+			  	android:layout_height="wrap_content"
+			  	android:background="@drawable/knowledge_title"/>
+		    
+		    <RelativeLayout 
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="13dp"
+			    android:layout_marginRight="13dp"
+			    android:layout_marginTop="20dp">
+		        <TextView 
+		            android:id="@+id/detail_desc_title"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="医生详情"
+			        android:textColor="@color/ajk_selected"
+			        android:textSize="@dimen/title"/>
+		        
+		        <TextView 
+		            android:id="@+id/detail_collection_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_alignParentRight="true"
+			        android:layout_centerVertical="true"
+			        android:text="收藏"
+			        android:textColor="@color/ajk"
+			        android:textSize="@dimen/second_title"/>
+		        
+		        <ImageView 
+		            android:id="@+id/detail_collection"
+		            android:layout_toLeftOf="@id/detail_collection_text"
+		            android:layout_centerVertical="true"
+				    android:layout_width="wrap_content"
+				  	android:layout_height="wrap_content"
+				  	android:layout_marginRight="12dp"
+				  	android:background="@drawable/btn_sc_nor"/>
+			</RelativeLayout>
+			
+		    <TextView 
+	            android:id="@+id/detail_name"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="13dp"
+		        android:layout_marginTop="10dp"
+		        android:text="陈医生"
+		        android:textColor="@color/ajk"
+		        android:textSize="@dimen/title"/>
+		    
+		    <TextView 
+	            android:id="@+id/detail_describe"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="13dp"
+		        android:layout_marginTop="10dp"
+		        android:lineSpacingMultiplier="1.2"
+		        android:text="       中国中医首席代表中国中医首席代表中国中医首席代表中国中医首席代表中国中医首席代表中国中医首席代表中国中医首席代表"
+		        android:textColor="@color/ajk"
+		        android:textSize="@dimen/text"/>
+		    
+		    <View 
+		        android:layout_width="wrap_content"
+		        android:layout_height="1dp"
+		        android:layout_marginTop="10dp"
+		        android:layout_marginLeft="13dp"
+		        android:layout_marginRight="13dp"
+		        android:background="@color/line"/>
+		    
+		    <TextView 
+	            android:id="@+id/detail_recommend_title"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="13dp"
+		        android:layout_marginTop="20dp"
+		        android:text="@string/aboutrecommend"
+		        android:textColor="@color/ajk_selected"
+		        android:textSize="@dimen/title"/>
+		    
+		    <LinearLayout 
+		        android:layout_width="match_parent"
+		    	android:layout_height="wrap_content"
+		    	android:layout_marginRight="13dp"
+		    	android:layout_marginLeft="13dp"
+		    	android:orientation="horizontal">
+		    	
+		        <LinearLayout 
+		            android:layout_width="wrap_content"
+		    		android:layout_height="wrap_content"
+		    		android:orientation="vertical"
+		    		android:layout_weight="1">
+		            <ImageView 
+			            android:id="@+id/detail_recommend1"
+			            android:layout_width="wrap_content"
+			    		android:layout_height="wrap_content"
+			    		android:src="@drawable/knowledge_img2"/>
+		            
+		            <TextView  
+		                android:id="@+id/detail_recommend1_name"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_horizontal"
+				        android:singleLine="true"
+				        android:text="李医生"
+				        android:textColor="@color/text"
+				        android:textSize="@dimen/text"/>
+		            
+		            <TextView  
+		                android:id="@+id/detail_recommend1_desc"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_marginTop="5dp"
+				        android:singleLine="true"
+				        android:text="李医生是首席"
+				        android:textColor="@color/text"
+				        android:textSize="@dimen/text"/>
+		        </LinearLayout>
+		        
+		        <LinearLayout 
+		            android:layout_width="wrap_content"
+		    		android:layout_height="wrap_content"
+		    		android:orientation="vertical"
+		    		android:layout_marginLeft="20dp"
+		    		android:layout_weight="1">
+		            <ImageView 
+			            android:id="@+id/detail_recommend2"
+			            android:layout_width="wrap_content"
+			    		android:layout_height="wrap_content"
+			    		android:src="@drawable/knowledge_img2"/>
+		            
+		            <TextView  
+		                android:id="@+id/detail_recommend2_name"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_horizontal"
+				        android:singleLine="true"
+				        android:text="李医生"
+				        android:textColor="@color/text"
+				        android:textSize="@dimen/text"/>
+		            
+		            <TextView  
+		                android:id="@+id/detail_recommend2_desc"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_marginTop="5dp"
+				        android:singleLine="true"
+				        android:text="李医生是首席"
+				        android:textColor="@color/text"
+				        android:textSize="@dimen/text"/>
+		        </LinearLayout>
+		        
+		        <LinearLayout 
+		            android:layout_width="wrap_content"
+		    		android:layout_height="wrap_content"
+		    		android:orientation="vertical"
+		    		android:layout_marginLeft="20dp"
+		    		android:layout_weight="1">
+		            <ImageView 
+			            android:id="@+id/detail_recommend3"
+			            android:layout_width="wrap_content"
+			    		android:layout_height="wrap_content"
+			    		android:src="@drawable/knowledge_img2"/>
+		            
+		            <TextView  
+		                android:id="@+id/detail_recommend3_name"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_gravity="center_horizontal"
+				        android:singleLine="true"
+				        android:text="李医生"
+				        android:textColor="@color/text"
+				        android:textSize="@dimen/text"/>
+		            
+		            <TextView  
+		                android:id="@+id/detail_recommend3_desc"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_marginTop="5dp"
+				        android:singleLine="true"
+				        android:text="李医生是首席"
+				        android:textColor="@color/text"
+				        android:textSize="@dimen/text"/>
+		        </LinearLayout>
+		    </LinearLayout>
+		    
+		    <View 
+		        android:layout_width="wrap_content"
+		        android:layout_height="1dp"
+		        android:layout_marginTop="10dp"
+		        android:layout_marginLeft="13dp"
+		        android:layout_marginRight="13dp"
+		        android:background="@color/line"/>
+		    
+		    <RelativeLayout 
+		        android:layout_width="wrap_content"
+	    		android:layout_height="wrap_content"
+	    		android:layout_marginTop="10dp"
+	    		android:layout_marginLeft="13dp"
+	    		android:layout_marginRight="13dp">
+		        
+		        <ImageView 
+		            android:id="@+id/detail_message"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_alignParentLeft="true"
+			        android:src="@drawable/btn_zx_nor"/>
+		        
+		        <ImageView 
+		            android:id="@+id/detail_phone"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_alignParentRight="true"
+			        android:src="@drawable/btn_bh_nor"/>
+		    </RelativeLayout>
+		</LinearLayout>
+	</com.yc.health.widget.CustomScrollView>
+	
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightgrade">
+        
+        <ImageView 
+            android:id="@+id/detail_back"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="10dp"
+	        android:src="@drawable/btn_back_nor"/>
+        
+        <Button 
+            android:id="@+id/detail_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerInParent="true"
+	        android:text="医生详情"
+	        android:textColor="@color/white"
+	        android:textSize="@dimen/title"
+	        android:background="@color/transparent"/>
+        
+        <ImageView 
+            android:id="@+id/detail_location"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+	        android:layout_marginRight="10dp"
+	        android:src="@drawable/btn_dw_nor"/>
+    </RelativeLayout>
+</FrameLayout>

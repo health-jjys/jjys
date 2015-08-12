@@ -1,0 +1,92 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/private_order"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView 
+	    android:layout_width="match_parent"
+	  	android:layout_height="match_parent"
+	  	android:background="@drawable/bg"/>
+    
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_marginTop="10dp"
+	    android:orientation="vertical" >
+	
+	    <RelativeLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="20dp"
+	    	android:layout_marginRight="20dp">
+	        <ImageView 
+	            android:id="@+id/private_order_back"
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/btn_back_nor"/>
+	        
+	        <ImageView
+	            android:id="@+id/private_order_title"
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_centerHorizontal="true"
+	        	android:background="@drawable/title_srdz"/>
+	    </RelativeLayout>
+	
+	    <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="20dp"
+	    	android:layout_marginRight="20dp"
+	        android:orientation="horizontal" >
+	
+	        <Button
+	            android:id="@+id/private_order_safeFood"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:background="@color/transparent"
+	            android:text="安全饮食"
+	            android:textColor="@color/ajk_selected" />
+	
+	        <Button
+	            android:id="@+id/private_order_doctor"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:background="@color/transparent"
+	            android:text="中医理疗"
+	            android:textColor="@color/ajk" />
+	        
+	        <Button
+	            android:id="@+id/private_order_life"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:background="@color/transparent"
+	            android:text="生活管家"
+	            android:textColor="@color/ajk" />
+	    </LinearLayout>
+	
+	    <ImageView
+	        android:id="@+id/private_order_btn_selected"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="30dp"
+	        android:background="@drawable/select_paging_nor" />
+	    
+	    <ListView 
+	        android:id="@+id/private_order_list"
+	        android:layout_width="match_parent"
+	    	android:layout_height="0dp"
+	    	android:layout_weight="1"
+	    	android:layout_marginTop="20dp"
+	    	android:layout_marginLeft="20dp"
+	    	android:layout_marginRight="20dp"
+	    	android:divider="@color/line"
+	        android:dividerHeight="1dp"
+	        android:scrollbars="none"
+	    	android:listSelector="@color/transparent"/>
+	</LinearLayout>
+</FrameLayout>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/test_popupwindow"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:orientation="vertical">
+        
+        <TextView 
+            android:id="@+id/test_popupwindow_male"
+            android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_gravity="center_horizontal"
+        	android:clickable="true"
+        	android:text="男"
+        	android:textColor="@color/ajk"
+        	android:textSize="@dimen/title"/>
+        
+        <TextView 
+            android:id="@+id/test_popupwindow_female"
+            android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_gravity="center_horizontal"
+        	android:layout_marginTop="10dp"
+        	android:clickable="true"
+        	android:text="女"
+        	android:textColor="@color/ajk"
+        	android:textSize="@dimen/title"/>
+    </LinearLayout>
+    
+    <DatePicker 
+        android:id="@+id/test_popupwindow_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:calendarViewShown="false"/>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="horizontal">
+	    <Spinner
+	        android:id="@+id/provience_spinner"
+	        android:layout_width="80dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:spinnerMode="dialog" />
+	    
+	    <Spinner 
+	        android:id="@+id/city_spinner"
+	        android:layout_height="wrap_content" 
+	        android:layout_width="120dp"
+	        android:layout_weight="1"
+	        android:spinnerMode="dialog"/>
+	</LinearLayout>
+</LinearLayout>

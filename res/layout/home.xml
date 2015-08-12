@@ -1,0 +1,95 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/home_img"/>
+    
+    <ImageView 
+        android:id="@+id/home_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="14dp"
+        android:src="@drawable/btn_menu_nor"/>
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+        <RelativeLayout 
+            android:id="@+id/home_layout1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_centerHorizontal="true"
+	        android:layout_marginBottom="15dp">
+	        
+	        <ImageButton
+	            android:id="@+id/home_zyys"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:src="@drawable/zyysbtn"
+	            android:background="@color/transparent" />
+	        
+	        <ImageButton
+	            android:id="@+id/home_shq"
+	            android:layout_below="@id/home_zyys"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp"
+		        android:src="@drawable/shqbtn"
+		        android:background="@color/transparent"/>
+	        
+	        <ImageButton
+	            android:id="@+id/home_wd"
+	            android:layout_below="@id/home_shq"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp"
+		        android:src="@drawable/wdbtn"
+		        android:background="@color/transparent"/>
+	
+	    </RelativeLayout>
+	    
+        <ImageButton
+	        android:id="@+id/home_ajk"
+	        android:layout_toLeftOf="@id/home_layout1"
+	        android:layout_alignParentBottom="true"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginRight="-18dp"
+	        android:src="@drawable/ajkbtn"
+	        android:background="@color/transparent"/>
+        
+        <RelativeLayout 
+            android:id="@+id/home_layout2"
+            android:layout_toRightOf="@id/home_layout1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_marginLeft="-18dp"
+	        android:layout_alignBaseline="@id/home_layout1">
+	        
+	        <ImageButton
+		        android:id="@+id/home_srdz"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:src="@drawable/srdzbtn"
+		        android:background="@color/transparent"/>
+	        
+	        <ImageButton
+		        android:id="@+id/home_hyzg"
+		        android:layout_below="@id/home_srdz"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp"
+		        android:src="@drawable/hyzgbtn"
+		        android:background="@color/transparent"/>
+	    </RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>

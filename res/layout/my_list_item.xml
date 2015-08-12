@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_marginLeft="20dp">
+    
+    <ImageView 
+        android:id="@+id/my_icon_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/icon_wdjr" />
+        
+    <TextView 
+        android:id="@+id/my_text_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/my_icon_item"
+        android:layout_centerVertical="true"
+        android:text="个人信息"
+        android:textSize="@dimen/title"
+        android:textColor="@color/ajk_selected"/>
+        
+    <ImageView 
+        android:id="@+id/my_entericon_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/btn_jr_nor" />
+
+</RelativeLayout>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp" >
+    
+    <ImageView 
+        android:id="@+id/lifesphere_img_item"
+	    android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:src="@drawable/list_img"/>
+    
+    <RelativeLayout 
+        android:layout_toRightOf="@id/lifesphere_img_item"
+        android:layout_alignBottom="@id/lifesphere_img_item"
+	    android:layout_alignTop="@id/lifesphere_img_item"
+        android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp">
+	    
+        <TextView 
+            android:id="@+id/lifesphere_name_item"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="苹果"
+	        android:textColor="@color/ajk"
+	        android:textSize="@dimen/second_title"/>
+        
+        <TextView 
+            android:id="@+id/lifesphere_style_item"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:singleLine="true"
+	        android:text="小吃"
+	        android:textColor="@color/light"
+	        android:textSize="@dimen/text"/>
+        
+        <TextView 
+            android:id="@+id/lifesphere_describe_item"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:singleLine="true"
+	        android:text="能全面平衡夏日损失的维生素和矿物质"
+	        android:textColor="@color/light"
+	        android:textSize="@dimen/text"/>
+    </RelativeLayout>
+</RelativeLayout>

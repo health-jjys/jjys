@@ -1,0 +1,77 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/likehealth"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView 
+	    android:layout_width="match_parent"
+	  	android:layout_height="match_parent"
+	  	android:background="@drawable/bg"/>
+    
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_marginTop="10dp"
+	    android:orientation="vertical" >
+	
+	    <RelativeLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="20dp"
+	    	android:layout_marginRight="20dp">
+	        <ImageView 
+	            android:id="@+id/likehealth_back"
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/btn_back_nor"/>
+	        
+	        <ImageView
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_centerHorizontal="true"
+	        	android:src="@drawable/title_ajk"/>
+	    </RelativeLayout>
+	
+	    <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="20dp"
+	    	android:layout_marginRight="20dp"
+	        android:orientation="horizontal" >
+	
+	        <Button
+	            android:id="@+id/likehealth_knowledge_btn"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:background="@color/transparent"
+	            android:text="健康知识"
+	            android:textColor="@color/ajk_selected" />
+	
+	        <Button
+	            android:id="@+id/likehealth_video_btn"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:background="@color/transparent"
+	            android:text="健康视频"
+	            android:textColor="@color/ajk" />
+	    </LinearLayout>
+	
+	    <ImageView
+	        android:id="@+id/likehealth_btn_selected"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="40dp"
+	        android:background="@drawable/select_paging_nor" />
+	    
+    	<include 
+    	    android:layout_width="match_parent"
+    	    android:layout_height="wrap_content"
+    	    android:layout_marginTop="20dp"
+    	    android:layout_marginLeft="20dp"
+    		android:layout_marginRight="20dp"
+    	    layout="@layout/likehealth_knowledge"/>
+	</LinearLayout>
+</FrameLayout>

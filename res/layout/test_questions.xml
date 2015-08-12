@@ -1,0 +1,146 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView 
+	    android:layout_width="match_parent"
+	  	android:layout_height="match_parent"
+	  	android:background="@drawable/bg"/>
+    
+    <LinearLayout 
+        android:id="@+id/test_questions_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical">
+         <RelativeLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="20dp"
+	    	android:layout_marginRight="20dp">
+	        <ImageView 
+	            android:id="@+id/test_questions_backicon"
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_centerVertical="true"
+	        	android:src="@drawable/btn_back_nor"/>
+	        
+	        <Button 
+	            android:id="@+id/test_questions_backtext"
+	            android:layout_toRightOf="@id/test_questions_backicon"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_centerVertical="true"
+		        android:text="上一题"
+		        android:textColor="@color/text"
+		        android:textSize="@dimen/second_title"
+		        android:background="@color/transparent"/>
+	        
+	        <ImageView
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_centerHorizontal="true"
+	        	android:layout_centerVertical="true"
+	        	android:src="@drawable/title_grxx"/>
+	    </RelativeLayout>
+	    
+		<LinearLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical"
+		    android:background="@color/white" >
+		
+		    <TextView 
+		        android:id="@+id/test_questions_question"
+		        android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:layout_marginTop="20dp"
+		    	android:layout_marginLeft="20dp"
+		    	android:text="1.您精力充沛吗？"
+		    	android:textColor="@color/ajk_selected"
+		        android:textSize="@dimen/second_title"/>
+		    
+		    <View 
+		        android:layout_width="wrap_content"
+		    	android:layout_height="0.5dp"
+		    	android:layout_marginTop="20dp"
+		    	android:layout_marginLeft="20dp"
+		    	android:layout_marginBottom="20dp"
+		    	android:background="@color/line"/>
+		    
+		    <RadioGroup 
+		        android:id="@+id/test_selected"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="30dp"
+		        android:orientation="vertical">
+		        
+		        <RadioButton 
+		            android:id="@+id/test_never_item"
+		            android:layout_width="wrap_content"
+		        	android:layout_height="wrap_content"
+		        	android:layout_marginBottom="20dp"
+		        	android:text="没有"
+		        	android:textColor="@color/ajk_selected"
+		        	android:textSize="@dimen/second_title"/>
+		        
+		        <RadioButton 
+		            android:id="@+id/test_little_item"
+		            android:layout_width="wrap_content"
+		        	android:layout_height="wrap_content"
+		        	android:layout_marginBottom="20dp"
+		        	android:text="很少"
+		        	android:textColor="@color/ajk_selected"
+		        	android:textSize="@dimen/second_title"/>
+		        
+		        <RadioButton 
+		            android:id="@+id/test_sometimes_item"
+		            android:layout_width="wrap_content"
+		        	android:layout_height="wrap_content"
+		        	android:layout_marginBottom="20dp"
+		        	android:text="有时"
+		        	android:textColor="@color/ajk_selected"
+		        	android:textSize="@dimen/second_title"/>
+		        
+		        <RadioButton 
+		            android:id="@+id/test_often_item"
+		            android:layout_width="wrap_content"
+		        	android:layout_height="wrap_content"
+		        	android:layout_marginBottom="20dp"
+		        	android:text="经常"
+		        	android:textColor="@color/ajk_selected"
+		        	android:textSize="@dimen/second_title"/>
+		        
+		        <RadioButton 
+		            android:id="@+id/test_always_item"
+		            android:layout_width="wrap_content"
+		        	android:layout_height="wrap_content"
+		        	android:layout_marginBottom="20dp"
+		        	android:text="总是"
+		        	android:textColor="@color/ajk_selected"
+		        	android:textSize="@dimen/second_title"/>
+		        </RadioGroup>
+		</LinearLayout>
+		
+		<TextView 
+		    android:id="@+id/test_questions_progress"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_marginTop="10dp"
+		    android:layout_gravity="center_horizontal"
+		    android:text="已完成（0/68）"
+        	android:textColor="@color/ajk_selected"
+        	android:textSize="@dimen/second_title"/>
+    </LinearLayout>
+    
+	<ImageView 
+	    android:id="@+id/test_questions_home"
+	    android:layout_width="wrap_content"
+	  	android:layout_height="wrap_content"
+	  	android:layout_marginLeft="10dp"
+	  	android:layout_marginBottom="10dp"
+	  	android:layout_gravity="bottom"
+	  	android:alpha="0.6"
+	  	android:src="@drawable/btn_login_nor"/>
+	
+</FrameLayout>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/text_popupwindow"
+    android:background="@drawable/text_frame"
+    android:orientation="vertical" >
+    
+    <TextView 
+        android:id="@+id/text_popupwindow_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:lineSpacingMultiplier="1.2"
+        android:text="       物理理论啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦"
+        android:textColor="@color/ajk"
+        android:textSize="@dimen/text"/>
+    
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/ajk_selected" />
+    
+    <Button 
+        android:id="@+id/text_popupwindow_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="@string/confirm"
+        android:textColor="@color/ajk_selected"
+        android:textSize="@dimen/title"
+        android:background="@color/transparent"/>
+
+</LinearLayout>

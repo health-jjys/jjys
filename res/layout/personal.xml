@@ -1,0 +1,109 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/personal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView 
+	    android:layout_width="match_parent"
+	  	android:layout_height="match_parent"
+	  	android:background="@drawable/bg"/>
+    
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginLeft="20dp"
+	    android:layout_marginRight="20dp"
+	    android:orientation="vertical" >
+	
+	    <RelativeLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content">
+	        <ImageView 
+	            android:id="@+id/personal_back"
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/btn_back_nor"/>
+	        
+	        <ImageView
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_centerHorizontal="true"
+	        	android:src="@drawable/title_gr"/>
+	    </RelativeLayout>
+	    
+	    <RelativeLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="20dp">
+	        
+	        <org.kymjs.kjframe.widget.RoundImageView
+	            android:id="@+id/personal_headimg"
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/headimg"/>
+	        
+	        <RelativeLayout 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/personal_headimg"
+		        android:layout_alignBottom="@id/personal_headimg"
+		        android:layout_alignTop="@id/personal_headimg"
+		        android:layout_centerVertical="true"
+		        android:layout_marginLeft="10dp">
+		        
+		        <TextView
+			        android:id="@+id/personal_name"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="天源君"
+			        android:textColor="@color/text"
+			        android:textSize="@dimen/title"/>
+		        
+		        <TextView
+			        android:id="@+id/personal_constitution"
+			        android:layout_toRightOf="@id/personal_name"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_marginLeft="20dp"
+			        android:layout_marginTop="2dp"
+			        android:text="平和质"
+			        android:textColor="@color/light"
+			        android:textSize="@dimen/second_title"/>
+		        
+		        
+		        <TextView
+			        android:id="@+id/personal_location"
+			        android:layout_below="@id/personal_name"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_marginTop="15dp"
+			        android:drawableLeft="@drawable/btn_dw_nor"
+			        android:text="当前位置"
+			        android:textColor="@color/light"
+			        android:textSize="@dimen/second_title"/>
+	        </RelativeLayout>
+	        
+	        <ImageView
+	            android:id="@+id/personal_code"
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_alignParentRight="true"
+	        	android:layout_centerVertical="true"
+	        	android:src="@drawable/btn_qr_nor"/>
+	    </RelativeLayout>
+	    
+	    <ListView 
+	   		android:id="@+id/my_info"
+	   		android:layout_width="fill_parent"
+			android:layout_height="0dp"
+			android:layout_marginTop="10dp"
+			android:layout_weight="1"
+			android:divider="@color/light"
+	   		android:dividerHeight="0.5dp"
+	   		android:scrollbars="none"
+			android:listSelector="@color/transparent" />
+	    
+	</LinearLayout>
+</FrameLayout>

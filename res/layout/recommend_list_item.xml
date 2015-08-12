@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp" >
+    
+    <ImageView 
+        android:id="@+id/recommend_img_item"
+	    android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:src="@drawable/list_img"/>
+    
+    <RelativeLayout 
+        android:id="@+id/recommend_item"
+        android:layout_toRightOf="@id/recommend_img_item"
+        android:layout_alignBottom="@id/recommend_img_item"
+	    android:layout_alignTop="@id/recommend_img_item"
+        android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp">
+        
+        <TextView 
+            android:id="@+id/recommend_name_item"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="苹果"
+	        android:textColor="@color/text"
+	        android:textSize="@dimen/second_title"/>
+        
+        <TextView 
+            android:id="@+id/recommend_describe_item"
+            android:layout_below="@id/recommend_name_item"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:singleLine="true"
+	        android:layout_marginTop="10dp"
+	        android:layout_marginBottom="10dp"
+	        android:text="能全面平衡夏日损失的维生素和矿物质"
+	        android:textColor="@color/light"
+	        android:textSize="@dimen/text"/>
+        
+        <LinearLayout 
+            android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:weightSum="4"
+	        android:orientation="horizontal">
+            
+            <TextView 
+	            android:id="@+id/recommend_constitution1_item"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:padding="3dp"
+		        android:background="@color/chocklate"
+		        android:text="平和质"
+		        android:textColor="@color/light"
+		        android:textSize="@dimen/text"/>
+            
+            <TextView 
+	            android:id="@+id/recommend_constitution2_item"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="5dp"
+		        android:layout_weight="1"
+		        android:padding="3dp"
+		        android:background="@color/chocklate"
+		        android:text="平和质"
+		        android:textColor="@color/light"
+		        android:textSize="@dimen/text"/>
+            
+            <TextView 
+	            android:id="@+id/recommend_constitution3_item"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="5dp"
+		        android:layout_weight="1"
+		        android:padding="3dp"
+		        android:background="@color/chocklate"
+		        android:text="平和质"
+		        android:textColor="@color/light"
+		        android:textSize="@dimen/text"/>
+            
+            <TextView 
+	            android:id="@+id/recommend_constitution4_item"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="5dp"
+		        android:layout_weight="1"
+		        android:padding="3dp"
+		        android:background="@color/chocklate"
+		        android:text="平和质"
+		        android:textColor="@color/light"
+		        android:textSize="@dimen/text"/>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

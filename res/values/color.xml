@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+    
+    <color name="ajk_selected">#FF823a11</color><!-- 健康知识选中字体颜色 -->
+    <color name="ajk">#FF484848</color><!-- 健康知识未选中字体颜色 -->
+    <color name="text">#FF313131</color><!-- 个人中心字体 -->
+    <color name="light">#FF8a8a85</color><!-- 个人中心字体 ，偏灰淡-->
+    
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="grade">#FFC6C7CE</color>
+    <color name="lightgrade">#55000000</color>
+    <color name="chocklate">#FF823A11</color>
+    <color name="green">#FF00FF00</color>
+    <color name="red">#FFFF0000</color>
+    <color name="blue">#AA0000FF</color>
+    
+    <color name="bg">#FFFFF8DC</color>
+    <color name="line">#FFCCCCCC</color>
+    
+    <color name="login">#FF823A11</color>
+    <color name="forgetpsw">#FF7D7059</color>
+    
+    <color name="recommend_title">#FF9E9E9E</color>
+    <color name="recommend_nofit">#FFE32D2C</color>
+    <color name="recommend_fit">#FF00FF00</color>
+</resources>

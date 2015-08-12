@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constitutionselector"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView 
+	    android:layout_width="match_parent"
+	  	android:layout_height="match_parent"
+	  	android:background="@drawable/bg"/>
+    
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_marginTop="10dp"
+	    android:orientation="vertical" >
+	
+	    <RelativeLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="20dp"
+	    	android:layout_marginRight="20dp">
+	        <ImageView 
+	            android:id="@+id/constitutionselector_back"
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_centerVertical="true"
+	        	android:src="@drawable/btn_back_normal"/>
+	        
+	        <ImageView
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_centerHorizontal="true"
+	        	android:src="@drawable/title_ajk"/>
+	    </RelativeLayout>
+	
+	    <FrameLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:layout_marginTop="20dp"
+	    	android:layout_marginLeft="20dp"
+	    	android:layout_marginRight="20dp">
+	        
+	        <ImageView 
+	            android:layout_width="match_parent"
+	    		android:layout_height="wrap_content"
+	    		android:background="@drawable/bg_frame"/>
+	        
+	        <LinearLayout 
+	            android:layout_width="match_parent"
+	    		android:layout_height="wrap_content"
+	    		android:layout_marginLeft="20dp"
+		    	android:layout_marginRight="20dp"
+		    	android:orientation="vertical">
+	    		
+	            <TextView 
+		            android:layout_width="wrap_content"
+		    		android:layout_height="wrap_content"
+		    		android:layout_gravity="center_horizontal"
+		    		android:layout_marginTop="40dp"
+		    		android:text="亲，本测试根据专业中医知识推敲出的一套权威性的题目，所以题目比较多。"
+		    		android:textColor="@color/text"
+		    		android:textSize="@dimen/text"/>
+	            
+	            <Button 
+	    		    android:id="@+id/constitutinselector_test"
+		            android:layout_width="wrap_content"
+		    		android:layout_height="wrap_content"
+		    		android:layout_gravity="center_horizontal"
+		    		android:layout_marginTop="10dp"
+		    		android:text="开始测试"
+		    		android:textColor="@color/ajk_selected"
+		    		android:textSize="@dimen/title"
+		    		android:background="@color/transparent"/>
+	        </LinearLayout>
+	    </FrameLayout>
+	    
+	    <TextView 
+            android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_marginTop="20dp"
+    		android:layout_gravity="center_horizontal"
+    		android:text="已知自己的体质"
+    		android:textColor="@color/ajk_selected"
+    		android:textSize="@dimen/title"/>
+	    
+	    <com.yc.health.widget.CustomScrollView
+	        android:layout_width="match_parent"
+	        android:layout_height="0dp"
+	        android:layout_margin="20dp"
+	        android:layout_weight="1"
+	        android:fillViewport="true"
+	        android:scrollbars="none" >
+	
+	        <com.yc.health.widget.GridCommodity
+	            android:id="@+id/constitutionselector_constitutions"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:gravity="center"
+	            android:horizontalSpacing="20dp"
+	            android:verticalSpacing="20dp"
+	            android:listSelector="@color/transparent"
+	            android:numColumns="3"
+	            android:stretchMode="columnWidth" />
+	    </com.yc.health.widget.CustomScrollView>
+	</LinearLayout>
+</FrameLayout>

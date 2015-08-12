@@ -1,0 +1,135 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/likehealth_video"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <ImageView 
+	    android:layout_width="match_parent"
+	  	android:layout_height="match_parent"
+	  	android:background="@drawable/bg"/>
+    
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical">
+	    
+	    <VideoView
+	        android:id="@+id/likehealth_video_video"
+	        android:layout_width="match_parent"
+	        android:layout_gravity="center_horizontal"
+	        android:layout_height="200dp"
+	        android:background="@drawable/knowledge_title" />
+	    
+	    <RelativeLayout
+	        android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginTop="20dp"
+		    android:layout_marginLeft="20dp"
+		    android:layout_marginRight="20dp">
+		    
+	        <TextView
+	            android:id="@+id/likehealth_video_videoDes"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_centerVertical="true"
+		        android:text="@string/videodesc"
+		        android:textColor="@color/ajk_selected"
+		        android:textSize="@dimen/title"/>
+	        
+	        <TextView
+	            android:id="@+id/likehealth_video_collecttext"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_centerVertical="true"
+		        android:layout_alignParentRight="true"
+		        android:layout_marginTop="20dp"
+		        android:text="@string/collection"
+		        android:textColor="@color/text"
+		        android:textSize="@dimen/second_title"/>
+	        
+	        <ImageButton
+		        android:id="@+id/likehealth_video_collectbtn"
+		        android:layout_toLeftOf="@id/likehealth_video_collecttext"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="10dp"
+		        android:layout_centerVertical="true"
+		        android:src="@drawable/btn_sc_nor"
+		        android:background="@color/transparent"/>
+	    </RelativeLayout>
+	    
+	    <TextView
+	        android:id="@+id/likehealth_video_desc"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="24dp"
+		    android:layout_marginRight="24dp"
+	        android:text="立夏节气的养身规则"
+	        android:textColor="@color/text"
+	        android:textSize="@dimen/text"/>
+	    
+	    <View 
+	        android:layout_width="match_parent"
+	        android:layout_height="0.5dp"
+	        android:layout_marginTop="20dp"
+		    android:layout_marginLeft="20dp"
+		    android:layout_marginRight="20dp"
+		    android:layout_marginBottom="20dp"
+		    android:background="@color/line" />
+	       
+	    <TextView
+	        android:id="@+id/likehealth_video_aboutrecommend"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="20dp"
+		    android:layout_marginRight="20dp"
+		    android:layout_marginBottom="20dp"
+	        android:text="@string/aboutrecommend"
+	        android:textColor="@color/ajk_selected"
+	        android:textSize="@dimen/title"/>
+	     
+	    <com.yc.health.widget.CustomScrollView
+	        android:layout_width="match_parent"
+	        android:layout_height="0dp"
+	        android:layout_marginLeft="20dp"
+		    android:layout_marginRight="20dp"
+	        android:layout_weight="1"
+	        android:fillViewport="true"
+	        android:scrollbars="none" >
+	
+	        <com.yc.health.widget.GridCommodity
+	            android:id="@+id/likehealth_videos"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:horizontalSpacing="12dp"
+	            android:verticalSpacing="19dp"
+	            android:listSelector="@color/transparent"
+	            android:numColumns="2"
+	            android:stretchMode="columnWidth" />
+	    </com.yc.health.widget.CustomScrollView>
+	</LinearLayout>
+
+	<RelativeLayout
+        android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp">
+	    
+	    <ImageView
+	        android:id="@+id/likehealth_video_back"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:clickable="true"
+	        android:src="@drawable/btn_back_nor"/>
+        
+        <ImageView
+	        android:id="@+id/likehealth_video_share3"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:clickable="true"
+	        android:src="@drawable/btn_back_nor"/>
+    </RelativeLayout>
+</FrameLayout>

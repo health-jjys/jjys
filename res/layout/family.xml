@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/family"
+    android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	
+    <ImageView 
+	    android:layout_width="match_parent"
+	  	android:layout_height="match_parent"
+	  	android:background="@drawable/bg"/>
+	
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical" >
+	    
+	    <RelativeLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="10dp"
+	        android:layout_marginLeft="20dp"
+	    	android:layout_marginRight="20dp">
+	        <ImageView 
+	            android:id="@+id/login_back"
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:src="@drawable/btn_back_nor"/>
+	        
+	        <ImageView
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_centerHorizontal="true"
+	        	android:src="@drawable/title_grxx"/>
+	    </RelativeLayout>
+	
+	    <RelativeLayout 
+	        android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="10dp"
+		    android:layout_marginRight="10dp">
+	        
+	        <TextView 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+		        android:layout_centerVertical="true"
+		        android:padding="5dp"
+		        android:text="选择家人"
+		        android:textColor="@color/ajk_selected"
+		        android:textSize="@dimen/title"/>
+	        
+	        <Button 
+	            android:id="@+id/family_edit"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentRight="true"
+		        android:layout_centerVertical="true"
+		        android:layout_marginRight="10dp"
+		        android:text="编辑"
+		        android:textColor="@color/grade"
+		        android:textSize="@dimen/title"
+		        android:background="@color/transparent"/>
+	    </RelativeLayout>
+	    
+	    <View 
+	        android:layout_width="match_parent"
+		    android:layout_height="1dp"
+		    android:background="@color/line"/>
+	    
+	    <ListView 
+	   		android:id="@+id/family_list"
+	   		android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_margin="10dp"
+			android:layout_weight="1"
+			android:divider="@color/transparent"
+			android:dividerHeight="10dp"
+	   		android:scrollbars="none"
+			android:listSelector="@color/transparent" />
+	    
+	    <View 
+	        android:layout_width="match_parent"
+		    android:layout_height="1dp"
+		    android:background="@color/line"/>
+	    
+	    <Button 
+	        android:id="@+id/family_ok"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal|bottom"
+	        android:text="确定"
+	        android:textColor="@color/ajk_selected"
+	        android:textSize="@dimen/title"
+	        android:background="@color/transparent"/>
+	
+	</LinearLayout>
+</FrameLayout>

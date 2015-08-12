@@ -1,0 +1,84 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/leftmenu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView 
+	    android:layout_width="match_parent"
+	  	android:layout_height="match_parent"
+	  	android:background="@drawable/bg"/>
+    
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginLeft="20dp"
+	    android:layout_marginRight="20dp"
+	    android:orientation="vertical" >
+	
+	    <TextView 
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_gravity="center_horizontal"
+        	android:text="个人中心"
+        	android:textColor="@color/ajk_selected"
+        	android:textSize="@dimen/title"/>
+	    
+	    <org.kymjs.kjframe.widget.RoundImageView 
+	        android:id="@+id/leftmenu_headimg"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:layout_gravity="center_horizontal"
+	    	android:layout_marginTop="20dp"
+	    	android:src="@drawable/headimg"/>
+	    
+	    <TextView 
+            android:id="@+id/leftmenu_name"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_gravity="center_horizontal"
+        	android:layout_marginTop="10dp"
+        	android:text="大白"
+        	android:textColor="@color/text"
+        	android:textSize="@dimen/title"/>
+	    
+	    <RelativeLayout 
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:layout_marginTop="10dp"
+	    	android:layout_gravity="center">
+	    	
+	        <TextView 
+	            android:id="@+id/leftmenu_test_result"
+	        	android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_gravity="center_horizontal"
+	        	android:text="未测试"
+	        	android:textColor="@color/ajk"
+	        	android:textSize="@dimen/text"/>
+	        
+	        <TextView 
+	            android:id="@+id/leftmenu_constitution"
+	            android:layout_toRightOf="@id/leftmenu_test_result"
+	        	android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_gravity="center_horizontal"
+	        	android:layout_marginLeft="20dp"
+	        	android:text="体质未知"
+	        	android:textColor="@color/ajk"
+	        	android:textSize="@dimen/text"/>
+	    </RelativeLayout>
+	    
+	    <ListView 
+	   		android:id="@+id/leftmenu_list"
+	   		android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_marginTop="10dp"
+			android:layout_weight="1"
+			android:divider="@color/light"
+	   		android:dividerHeight="0.5dp"
+	   		android:scrollbars="none"
+			android:listSelector="@color/transparent" />
+	</LinearLayout>
+</FrameLayout>
