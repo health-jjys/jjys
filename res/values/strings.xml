@@ -9,7 +9,7 @@
     <string name="cancle">取消</string>
     <string name="quit">退出当前账号</string>
     <string name="headimg">/headimg.png</string>
-    <string name="localhost">http://192.168.0.198:8080</string>
+    <string name="localhost">http://192.168.0.199:8080</string>
 
     <string-array name="test_questions">
         <item>您精力充沛吗？</item>

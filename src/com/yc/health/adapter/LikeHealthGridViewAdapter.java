@@ -35,11 +35,12 @@ public class LikeHealthGridViewAdapter extends BaseAdapter {
 	
 	@Override
 	public int getCount() {
-		if ( list != null ) {
-			return list.size();
-		} else {
-			return 0;
-		}
+//		if ( list != null ) {
+//			return list.size();
+//		} else {
+//			return 0;
+//		}
+		return 6;
 	}
 
 	@Override
