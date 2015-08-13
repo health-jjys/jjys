@@ -59,8 +59,7 @@ public class DoctNavActivity extends Activity implements AMapLocationListener,AM
 	// 是否驾车和是否计算成功的标志
 	private boolean mIsDriveMode = true;
 	private boolean mIsCalculateRouteSuccess = false;
-	private TextView start_position_textview;
-	private TextView end_position_textview;
+	private Button btnreturn;
 	private Button car_navi_route;
 	private Button car_navi_emulator;
 	private Button car_navi_navi;
@@ -89,13 +88,11 @@ public class DoctNavActivity extends Activity implements AMapLocationListener,AM
 				switch (msg.what) {
 				case 1://更新我的坐标
 					mLocationManagerProxy.removeUpdates(DoctNavActivity.this);
-					start_position_textview.setText(mNaviStart.getLatitude()+","+mNaviStart.getLongitude());
 					Logutil.Log("=========="+mAMap.getScalePerPixel());
 					CameraUpdate arg0= CameraUpdateFactory.newLatLngZoom(new LatLng(mNaviStart.getLatitude(), mNaviStart.getLongitude()), (float) 10000);
 					mAMap.animateCamera(arg0);
 					break;
 				case 2://更新目的地坐标
-					end_position_textview.setText(mNaviEnd.getLatitude()+","+mNaviEnd.getLongitude());
 					break;
 				default:
 					break;
@@ -130,8 +127,8 @@ public class DoctNavActivity extends Activity implements AMapLocationListener,AM
 		mHandler.postDelayed(getloc, 1000);
 	}
 	private void initviews(Bundle savedInstanceState){
-		start_position_textview = (TextView) findViewById(R.id.start_position_textview);
-		end_position_textview = (TextView) findViewById(R.id.end_position_textview);
+		btnreturn=(Button)findViewById(R.id.btnreturn);
+		btnreturn.setOnClickListener(this);
 		mNaviEnd= new NaviLatLng(39.983456, 116.3154950);
 		car_navi_emulator=(Button)findViewById(R.id.car_navi_emulator);
 		car_navi_emulator.setOnClickListener(this);
@@ -353,6 +350,12 @@ public class DoctNavActivity extends Activity implements AMapLocationListener,AM
 			break;
 		case R.id.foot_navi_navi:
 			startGPSNavi(false);
+			break;
+		case R.id.btnreturn:
+//			Intent intent;
+//			intent=new Intent(getApplicationContext(), DetailActivity.class);
+			//startActivity(intent);
+			finish();
 			break;
 		}
 	}
