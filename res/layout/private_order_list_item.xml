@@ -2,9 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp" >
+    android:padding="10dp"
+    android:descendantFocusability="blocksDescendants" >
     
-    <ImageView 
+    <WebView 
         android:id="@+id/private_order_img_item"
 	    android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
@@ -25,7 +26,9 @@
             android:id="@+id/private_order_name_item"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
+	        android:layout_marginTop="5dp"
 	        android:layout_marginLeft="5dp"
+	        android:singleLine="true"
 	        android:text="苹果"
 	        android:textColor="@color/ajk"
 	        android:textSize="@dimen/second_title"/>
@@ -34,9 +37,9 @@
             android:id="@+id/private_order_describe_item"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_marginTop="5dp"
 	        android:layout_marginLeft="5dp"
-	        android:layout_centerVertical="true"
+	        android:layout_marginBottom="5dp"
+	        android:layout_alignParentBottom="true"
 	        android:singleLine="true"
 	        android:text="能全面平衡夏日损失的维生素和矿物质"
 	        android:textColor="@color/light"

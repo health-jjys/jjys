@@ -74,7 +74,6 @@ OnGetGeoCoderResultListener {
 	
 	@Override
 	public void setRootView() {
-		// TODO Auto-generated method stub
 		setContentView(R.layout.doctnavilayout);
 		mMapView = (MapView) findViewById(R.id.bmapView);
 
@@ -175,7 +174,6 @@ OnGetGeoCoderResultListener {
 	}
 
 	public class DemoRoutePlanListener implements RoutePlanListener {
-		
 		private BNRoutePlanNode mBNRoutePlanNode = null;
 		public DemoRoutePlanListener(BNRoutePlanNode node){
 			mBNRoutePlanNode = node;
@@ -191,8 +189,6 @@ OnGetGeoCoderResultListener {
 		}
 		@Override
 		public void onRoutePlanFailed() {
-			// TODO Auto-generated method stub
-			
 		}
 	}
 	
@@ -204,118 +200,111 @@ OnGetGeoCoderResultListener {
 		return null;
 	}
 
-@Override
-protected void onDestroy() {
-	// TODO Auto-generated method stub
-	try {
-		mMapView.onDestroy();
-		mSuggestionSearch.destroy();	
-	} catch (Exception e) {
-		// TODO: handle exception
+	@Override
+	protected void onDestroy() {
+		try {
+			mMapView.onDestroy();
+			mSuggestionSearch.destroy();	
+		} catch (Exception e) {
+		}
+		
+		super.onDestroy();
+	}
+	@Override
+	protected void onPause() {
+		mMapView.onPause();
+		super.onPause();
 	}
 	
-	super.onDestroy();
-}
-@Override
-protected void onPause() {
-	// TODO Auto-generated method stub
-	mMapView.onPause();
-	super.onPause();
-}
-
-@Override
-protected void onResume() {
-	// TODO Auto-generated method stub
-	mMapView.onResume();
-	super.onResume();
-}
-
-
-private class MyPoiOverlay extends PoiOverlay {
-
-	public MyPoiOverlay(BaiduMap baiduMap) {
-		super(baiduMap);
-	}
-
 	@Override
-	public boolean onPoiClick(int index) {
-		super.onPoiClick(index);
-		PoiInfo poi = getPoiResult().getAllPoi().get(index);
-		// if (poi.hasCaterDetails) {
-			mPoiSearch.searchPoiDetail((new PoiDetailSearchOption())
-					.poiUid(poi.uid));
-		// }
-		return true;
+	protected void onResume() {
+		mMapView.onResume();
+		super.onResume();
 	}
-}
-/**
- * 定位SDK监听函数
- */
-public class MyLocationListenner implements BDLocationListener {
-
-	@Override
-	public void onReceiveLocation(BDLocation location) {
-		// map view 销毁后不在处理新接收的位置
-		if (location == null || mMapView == null)
-			return;
-		MyLocationData locData = new MyLocationData.Builder()
-				.accuracy(location.getRadius())
-				// 此处设置开发者获取到的方向信息，顺时针0-360
-				.direction(100).latitude(location.getLatitude())
-				.longitude(location.getLongitude()).build();
-		mBaiduMap.setMyLocationData(locData);
-		if (isFirstLoc) {
-			mLocClient.stop();
-			isFirstLoc = false;
-			LatLng ll = new LatLng(location.getLatitude(),
-					location.getLongitude());
-			MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
-			mBaiduMap.animateMapStatus(u);
-			lMyLoc=ll;
-			if ( initDirs() ) {
-				initNavi();
-				Logutil.Log("初始化导航一次");
-				initclicker();
-			}
+	
+	
+	private class MyPoiOverlay extends PoiOverlay {
+	
+		public MyPoiOverlay(BaiduMap baiduMap) {
+			super(baiduMap);
 		}
-
-	}
-
-	public void onReceivePoi(BDLocation poiLocation) {
-	}
-}
-private void initclicker() {
-	Button btnstart=(Button)findViewById(R.id.btnstartnav);
-	btnstart.setOnClickListener(new OnClickListener() {
-		
+	
 		@Override
-		public void onClick(View arg0) {
-			// TODO Auto-generated method stub
-			routeplanToNavi(CoordinateType.BD09_MC);
+		public boolean onPoiClick(int index) {
+			super.onPoiClick(index);
+			PoiInfo poi = getPoiResult().getAllPoi().get(index);
+			// if (poi.hasCaterDetails) {
+				mPoiSearch.searchPoiDetail((new PoiDetailSearchOption())
+						.poiUid(poi.uid));
+			// }
+			return true;
 		}
-	});
-}
-@Override
-public void onGetGeoCodeResult(GeoCodeResult result) {
-	// TODO Auto-generated method stub
-	Logutil.Log("geo:"+result.getLocation().latitude+" lon:"+result.getLocation().longitude);
-	//43.796516 lon:87.607873
-	LatLng ll;
-	BitmapDescriptor bd = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
-	LatLngBounds.Builder builder = new Builder();
-	ll = new LatLng(result.getLocation().latitude, result.getLocation().longitude);
-	OverlayOptions oo = new MarkerOptions().icon(bd).position(ll);
-	mBaiduMap.addOverlay(oo);
-	builder.include(ll);
-	LatLngBounds bounds = builder.build();
-	MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(bounds);
-	mBaiduMap.animateMapStatus(u);
-	lTargetAdd=ll;
-}
+	}
+	/**
+	 * 定位SDK监听函数
+	 */
+	public class MyLocationListenner implements BDLocationListener {
+	
+		@Override
+		public void onReceiveLocation(BDLocation location) {
+			// map view 销毁后不在处理新接收的位置
+			if (location == null || mMapView == null)
+				return;
+			MyLocationData locData = new MyLocationData.Builder()
+					.accuracy(location.getRadius())
+					// 此处设置开发者获取到的方向信息，顺时针0-360
+					.direction(100).latitude(location.getLatitude())
+					.longitude(location.getLongitude()).build();
+			mBaiduMap.setMyLocationData(locData);
+			if (isFirstLoc) {
+				mLocClient.stop();
+				isFirstLoc = false;
+				LatLng ll = new LatLng(location.getLatitude(),
+						location.getLongitude());
+				MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
+				mBaiduMap.animateMapStatus(u);
+				lMyLoc=ll;
+				if ( initDirs() ) {
+					initNavi();
+					Logutil.Log("初始化导航一次");
+					initclicker();
+				}
+			}
+	
+		}
+	
+		public void onReceivePoi(BDLocation poiLocation) {
+		}
+	}
+	private void initclicker() {
+		Button btnstart=(Button)findViewById(R.id.btnstartnav);
+		btnstart.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				routeplanToNavi(CoordinateType.BD09_MC);
+			}
+		});
+	}
+	@Override
+	public void onGetGeoCodeResult(GeoCodeResult result) {
+		Logutil.Log("geo:"+result.getLocation().latitude+" lon:"+result.getLocation().longitude);
+		//43.796516 lon:87.607873
+		LatLng ll;
+		BitmapDescriptor bd = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
+		LatLngBounds.Builder builder = new Builder();
+		ll = new LatLng(result.getLocation().latitude, result.getLocation().longitude);
+		OverlayOptions oo = new MarkerOptions().icon(bd).position(ll);
+		mBaiduMap.addOverlay(oo);
+		builder.include(ll);
+		LatLngBounds bounds = builder.build();
+		MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(bounds);
+		mBaiduMap.animateMapStatus(u);
+		lTargetAdd=ll;
+	}
 
-@Override
-public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
-	// TODO Auto-generated method stub
-	Logutil.Log("geoRev"+result.getLocation().latitude+" lon:"+result.getLocation().longitude);
-}
+	@Override
+	public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+		Logutil.Log("geoRev"+result.getLocation().latitude+" lon:"+result.getLocation().longitude);
+	}
 }

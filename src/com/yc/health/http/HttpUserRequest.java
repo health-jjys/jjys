@@ -35,7 +35,9 @@ public class HttpUserRequest extends Thread {
 	private final int deleteMember = 4;
 	private final int saveUserInfo = 5;
 	private final int getUser = 6;
+	private final int updateUserInfo = 7;
 	
+	private int userId = -1;
 	private String loginName = null;
 	private String password = null;
 	private String memberName = null;
@@ -57,30 +59,35 @@ public class HttpUserRequest extends Thread {
 		this.password = password;
 	}
 	
-	public void addMemberInit( String loginName, String memberName, String memberConstitution ) {
-		this.loginName = loginName;
+	public void addMemberInit( int userId, String memberName, String memberConstitution ) {
+		this.userId = userId;
 		this.memberConstitution = memberConstitution;
 		this.memberName = memberName;
 	}
 	
-	public void getMembersInit( String loginName ) {
-		this.loginName = loginName;
+	public void getMembersInit( int userId ) {
+		this.userId = userId;
 	}
 	
 	public void deleteMemberInit( int memberId ) {
 		this.memberId = memberId;
 	}
 	
-	public void saveUserInfoInit( String loginName, String userName, String sex, 
+	public void saveUserInfoInit( int userId, String userName, String sex, 
 			String constitution ) {
-		this.loginName = loginName;
+		this.userId = userId;
 		this.memberName = userName;
 		this.sex = sex;
 		this.memberConstitution = constitution;
 	}
 	
-	public void getUserInit( String loginName ) {
-		this.loginName = loginName;
+	public void getUserInit( int userId ) {
+		this.userId = userId;
+	}
+	
+	public void updateUserInfoInit( Integer userId, String userName ){
+		this.memberName = userName;
+		this.userId = userId;
 	}
 	
 	//用户登录判断
@@ -109,10 +116,33 @@ public class HttpUserRequest extends Thread {
 			public void onSuccess(String t) {
 				super.onSuccess(t);
 				try {
-					JSONObject mJsonObject = new JSONObject(t);
 					Message msg = new Message();
-					msg.what = 1;
-					msg.obj = mJsonObject.getString("message");
+					
+					JSONObject mJsonObject = new JSONObject(t);
+					String message = mJsonObject.getString("message");
+					if ( "noUser".equals(message) ) {
+						msg.what = 1;
+					} else if ( "pwdIsWrong".equals(message) ) {
+						msg.what = 2;
+					} else if ( "login".equals(message) ) {
+						JSONObject user = mJsonObject.getJSONObject("user");
+						
+						int userId = user.getInt("membersUserID");
+						String loginName = user.getString("loginName");
+						String userName = user.getString("userName");
+						String sex = user.getString("sex");
+						String constitution = user.getString("bodyConstitution");
+						
+						MemberUserModel userModel = new MemberUserModel();
+						userModel.setUserId(userId);
+						userModel.setLoginName(loginName);
+						userModel.setUserName(userName);
+						userModel.setSex(showSex(sex));
+						userModel.setConstitution(showConstitution(constitution));
+						
+						msg.what = 3;
+						msg.obj = userModel;
+					}
 					mHandler.sendMessage(msg);
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -131,7 +161,7 @@ public class HttpUserRequest extends Thread {
 	public void addMemberRequest() {
 		HttpParams params = new HttpParams();
 		try {
-			params.put("loginName", URLEncoder.encode(loginName, "utf-8"));
+			params.put("userId", ""+userId);
 			params.put("memberName", URLEncoder.encode(memberName, "utf-8"));
 			params.put("memberConstitution", URLEncoder.encode(memberConstitution, "utf-8"));
 		} catch (UnsupportedEncodingException e) {
@@ -169,11 +199,7 @@ public class HttpUserRequest extends Thread {
 	//获得所有家庭成员
 	public void getMembersRequest() {
 		HttpParams params = new HttpParams();
-		try {
-			params.put("loginName", URLEncoder.encode(loginName, "utf-8"));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+		params.put("userId", ""+userId);
 
 		HttpConfig config = new HttpConfig();
 		config.cacheTime=0;
@@ -265,7 +291,7 @@ public class HttpUserRequest extends Thread {
 	public void saveUserRequest() {
 		HttpParams params = new HttpParams();
 		try {
-			params.put("loginName", URLEncoder.encode(loginName, "utf-8"));
+			params.put("userId", ""+userId);
 			params.put("userName", URLEncoder.encode(memberName, "utf-8"));
 			params.put("constitution", URLEncoder.encode(memberConstitution, "utf-8"));
 			params.put("sex", URLEncoder.encode(sex, "utf-8"));
@@ -304,14 +330,10 @@ public class HttpUserRequest extends Thread {
 	//获得当前登录用户
 	public void getUserRequest() {
 		HttpParams params = new HttpParams();
-		try {
-			if (loginName==null) {
-				return;
-			}
-			params.put("loginName", URLEncoder.encode(loginName, "utf-8"));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		if ( userId == -1 ) {
+			return;
 		}
+		params.put("userId", ""+userId);
 
 		HttpConfig config = new HttpConfig();
 		config.cacheTime=0;
@@ -348,12 +370,51 @@ public class HttpUserRequest extends Thread {
 					userModel.setConstitution(showConstitution(constitution));
 					
 					Message msg = new Message();
-					msg.what = 2;
+					msg.what = 1;
 					msg.obj = userModel;
 					mHandler.sendMessage(msg);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
+			}
+
+			@SuppressLint("InlinedApi")
+			@Override
+			public void onFailure(Throwable t, int errorNo, String strMsg) {
+				super.onFailure(t, errorNo, strMsg);
+			}
+		});
+	}
+	
+	
+	//更新用户名
+	public void updateUserRequest() {
+		HttpParams params = new HttpParams();
+		try {
+			params.put("userId", ""+userId);
+			params.put("userName", URLEncoder.encode(memberName, "utf-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
+		HttpConfig config = new HttpConfig();
+		config.cacheTime=0;
+		config.maxRetries = 0;// 出错重连次数
+		KJHttp kjh = new KJHttp(config);
+		String url = context.getString(R.string.localhost).concat(
+				"/webUser/updateUserInfo");
+		kjh.post(url, params, new HttpCallBack() {
+			@Override
+			public void onFinish() {
+				super.onFinish();
+			}
+
+			@Override
+			public void onSuccess(String t) {
+				super.onSuccess(t);
+				Message msg = new Message();
+				msg.what = 1;
+				mHandler.sendMessage(msg);
 			}
 
 			@SuppressLint("InlinedApi")
@@ -387,6 +448,9 @@ public class HttpUserRequest extends Thread {
 			break;
 		case getUser:
 			this.getUserRequest();
+			break;
+		case updateUserInfo:
+			this.updateUserRequest();
 			break;
 		}
 		Looper.loop();

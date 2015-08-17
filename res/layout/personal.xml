@@ -38,20 +38,30 @@
 	        android:layout_height="wrap_content"
 	        android:layout_marginTop="20dp">
 	        
-	        <ImageView 
+	        <org.kymjs.kjframe.widget.RoundImageView
 	            android:id="@+id/personal_headimg"
 	            android:layout_width="wrap_content"
 	        	android:layout_height="wrap_content"
 	        	android:src="@drawable/headimg"/>
 	        
+	        <ImageView
+	            android:id="@+id/personal_code"
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:layout_alignParentRight="true"
+	        	android:layout_centerVertical="true"
+	        	android:src="@drawable/btn_qr_nor"/>
+	        
 	        <RelativeLayout 
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_toRightOf="@id/personal_headimg"
+		        android:layout_toLeftOf="@id/personal_code"
 		        android:layout_alignBottom="@id/personal_headimg"
 		        android:layout_alignTop="@id/personal_headimg"
 		        android:layout_centerVertical="true"
-		        android:layout_marginLeft="10dp">
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginRight="10dp">
 		        
 		        <TextView
 			        android:id="@+id/personal_name"
@@ -84,14 +94,6 @@
 			        android:textColor="@color/light"
 			        android:textSize="@dimen/second_title"/>
 	        </RelativeLayout>
-	        
-	        <ImageView
-	            android:id="@+id/personal_code"
-	            android:layout_width="wrap_content"
-	        	android:layout_height="wrap_content"
-	        	android:layout_alignParentRight="true"
-	        	android:layout_centerVertical="true"
-	        	android:src="@drawable/btn_qr_nor"/>
 	    </RelativeLayout>
 	    
 	    <ListView 

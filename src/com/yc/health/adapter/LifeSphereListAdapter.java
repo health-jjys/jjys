@@ -2,27 +2,32 @@ package com.yc.health.adapter;
 
 import java.util.List;
 
+import org.kymjs.kjframe.KJActivity;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebSettings.LayoutAlgorithm;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yc.health.R;
-import com.yc.health.model.LifeSphereModel;
+import com.yc.health.model.MemberShoppeModel;
 
 public class LifeSphereListAdapter extends BaseAdapter{
 
-	private List<LifeSphereModel> list = null;
+	private List<MemberShoppeModel> list = null;
 	private LayoutInflater inflater = null;
+	private Context context;
 	
 	public LifeSphereListAdapter(){}
 	
-	public LifeSphereListAdapter(List<LifeSphereModel> list, Context context){
+	public LifeSphereListAdapter(List<MemberShoppeModel> list, Context context){
 		this.list = list;
 		inflater = LayoutInflater.from(context);
+		this.context = context;
 	}
 	
 	@Override
@@ -45,9 +50,9 @@ public class LifeSphereListAdapter extends BaseAdapter{
 	}
 	
 	private static class LifeSphereItem {
-		ImageView img;
+		WebView img;
         TextView name;
-        TextView style;
+        TextView type;
         TextView describe;
     }
 
@@ -57,15 +62,35 @@ public class LifeSphereListAdapter extends BaseAdapter{
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.lifesphere_list_item, null);
 			lifeSphereItem = new LifeSphereItem();
-			lifeSphereItem.img = (ImageView) convertView.findViewById(R.id.lifesphere_img_item);
+			lifeSphereItem.img = (WebView) convertView.findViewById(R.id.lifesphere_img_item);
 			lifeSphereItem.name = (TextView) convertView.findViewById(R.id.lifesphere_name_item);
-			lifeSphereItem.style = (TextView) convertView.findViewById(R.id.lifesphere_style_item);
+			lifeSphereItem.type = (TextView) convertView.findViewById(R.id.lifesphere_style_item);
 			lifeSphereItem.describe = (TextView) convertView.findViewById(R.id.lifesphere_describe_item);
 			convertView.setTag(lifeSphereItem);
 		} else {
 			lifeSphereItem = (LifeSphereItem) convertView.getTag();
 		}
 		
+		lifeSphereItem.name.setText(list.get(position).getName());
+		lifeSphereItem.describe.setText(list.get(position).getDescription());
+		lifeSphereItem.type.setText(list.get(position).getType());
+		
+		String path = context.getResources().getString(R.string.localhost)+list.get(position).getImagePath();
+		lifeSphereItem.img.loadUrl(path);
+		@SuppressWarnings("deprecation")
+		int windowsWidth = ((KJActivity) context).getWindowManager().getDefaultDisplay().getWidth();
+		lifeSphereItem.img.getLayoutParams().width = (int) (windowsWidth*0.25);
+		lifeSphereItem.img.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+		lifeSphereItem.img.getSettings().setLoadWithOverviewMode(true);
+		
 		return convertView;
+	}
+	
+	public List<MemberShoppeModel> getList() {
+		return list;
+	}
+
+	public void setList(List<MemberShoppeModel> list) {
+		this.list = list;
 	}
 }

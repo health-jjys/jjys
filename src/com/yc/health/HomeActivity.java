@@ -139,12 +139,11 @@ public class HomeActivity extends KJActivity implements OnGestureListener{
 			}
 			break;
 		case R.id.home_wd:
-			this.showActivity(aty, PersonalActivity.class);
-//			if ( loginName != null ) {
-//				this.showActivity(aty, PersonalActivity.class);
-//			} else {
-//				this.showActivity(aty, LoginActivity.class);
-//			}
+			if ( loginName != null ) {
+				this.showActivity(aty, PersonalActivity.class);
+			} else {
+				this.showActivity(aty, LoginActivity.class);
+			}
 			break;
 		case R.id.home_zyys:
 			String constitution = userPreferences.getString("constitution", null);

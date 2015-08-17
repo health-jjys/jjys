@@ -12,15 +12,21 @@ import org.kymjs.kjframe.widget.RoundImageView;
 
 import com.yc.health.fragment.PersonalPopupWindow;
 import com.yc.health.fragment.QuitPopupWindow;
+import com.yc.health.http.HttpUserRequest;
 import com.yc.health.manager.ActivityManager;
 import com.yc.health.util.Method;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -49,6 +55,19 @@ public class PersonalInfoActivity extends KJActivity implements OnGestureListene
 	private PersonalPopupWindow menuWindow = null;
 	private GestureDetector gestureDetector;
 	
+	private SharedPreferences userPreferences;
+	private int userId = -1;
+	private String userName = null;
+	private String loginName = null;
+	private String sex = null;
+	
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+		}
+	};
+	
 	//头像替换
 	public static final int NONE = 0;
 	public static final int PHOTOHRAPH = 1;// 拍照
@@ -61,11 +80,19 @@ public class PersonalInfoActivity extends KJActivity implements OnGestureListene
 		setContentView(R.layout.personalinfo);
 	}
 
+	@SuppressLint("WorldReadableFiles") 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void initData() {
 		super.initData();
 		
 		ActivityManager.getInstace().addActivity(aty);
+		
+		userPreferences = getSharedPreferences("user", MODE_WORLD_READABLE);
+		userId = userPreferences.getInt("userId", -1);
+		userName = userPreferences.getString("userName", null);
+		loginName = userPreferences.getString("loginName", null);
+		sex = userPreferences.getString("sex", null);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -79,6 +106,11 @@ public class PersonalInfoActivity extends KJActivity implements OnGestureListene
 		Bitmap bm = method.getHeadBitmap();
 		BitmapDrawable bd= new BitmapDrawable(aty.getResources(), bm);
 		headImg.setImageDrawable(bd);
+		
+		
+		accountText.setText(loginName);
+		sexText.setText(sex);
+		nameText.setText(userName);
 	}
 
 	@Override
@@ -113,7 +145,22 @@ public class PersonalInfoActivity extends KJActivity implements OnGestureListene
 				}
             });
 			break;
+		case R.id.personalinfo_name:
+			nameText.setCursorVisible(true);
+			break;
 		}
+	}
+	
+	@Override
+	protected void onPause() {
+		Editor editor = userPreferences.edit();
+		editor.putString("userName", nameText.getText().toString());
+		editor.commit();
+		
+		HttpUserRequest request = new HttpUserRequest(aty,mHandler,7);
+		request.updateUserInfoInit(userId,nameText.getText().toString());
+		request.start();
+		super.onPause();
 	}
 	
 	@Override

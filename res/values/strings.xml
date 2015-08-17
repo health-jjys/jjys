@@ -10,7 +10,7 @@
     <string name="quit">退出当前账号</string>
     <string name="app_sd_cache_dir">healthnavcache</string>
     <string name="headimg">/headimg.png</string>
-    <string name="localhost">http://192.168.0.199:8080</string>
+    <string name="localhost">http://192.168.0.199:8080/healthRegimenForJJ</string>
 
     <string-array name="test_questions">
         <item>您精力充沛吗？</item>
@@ -557,5 +557,6 @@
     <string name="title_activity_family">FamilyActivity</string>
     <string name="title_activity_test_result">TestResultActivity</string>
     <string name="title_activity_guide">GuideActivity</string>
+    <string name="title_activity_type_detail">TypeDetailActivity</string>
 
 </resources>

@@ -96,23 +96,9 @@ public class ConstitutionRecommendActivity extends KJActivity implements OnGestu
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
 				Bundle bundle = new Bundle();
-				switch(position) {
-				case 0:
-					bundle.putString("title", "fruit");
-					bundle.putStringArrayList("constitutions", constitutions);
-					ConstitutionRecommendActivity.this.showActivity(aty, RecommendListActivity.class, bundle);
-					break;
-				case 1:
-					break;
-				case 2:
-					break;
-				case 3:
-					break;
-				case 4:
-					break;
-				case 5:
-					break;
-				}
+				bundle.putString("title", "fruit");
+				bundle.putStringArrayList("constitutions", constitutions);
+				ConstitutionRecommendActivity.this.showActivity(aty, RecommendListActivity.class, bundle);
 			}
 		});
 		
@@ -120,20 +106,6 @@ public class ConstitutionRecommendActivity extends KJActivity implements OnGestu
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				switch(position) {
-				case 0:
-					break;
-				case 1:
-					break;
-				case 2:
-					break;
-				case 3:
-					break;
-				case 4:
-					break;
-				case 5:
-					break;
-				}
 			}
 		});
 		
@@ -141,20 +113,6 @@ public class ConstitutionRecommendActivity extends KJActivity implements OnGestu
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				switch(position) {
-				case 0:
-					break;
-				case 1:
-					break;
-				case 2:
-					break;
-				case 3:
-					break;
-				case 4:
-					break;
-				case 5:
-					break;
-				}
 			}
 		});
 	}

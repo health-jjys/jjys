@@ -72,6 +72,95 @@ public class Method {
         return null;
 	}
 	
+	public String showMemberShppeType( String type ) {
+		String result = null;
+		if ( type.equals("deliciousfood") ) {
+			result = "美食";
+		} else if ( type.equals("beauty") ) {
+			result = "丽人";
+		} else if ( type.equals("fallow") ) {
+			result = "休闲";
+		} else if ( type.equals("examination") ) {
+			result = "体检";
+		} else if ( type.equals("therapy") ) {
+			result = "理疗";
+		} else if ( type.equals("convenient") ) {
+			result = "便民";
+		} else if ( type.equals("hotel") ) {
+			result = "酒店";
+		} else if ( type.equals("car") ) {
+			result = "爱车";
+		} else if ( type.equals("food") ) {
+			result = "食品";
+		} else if ( type.equals("textile") ) {
+			result = "家纺";
+		} else if ( type.equals("wash") ) {
+			result = "洗护";
+		} else {
+			result = "未知";
+		}
+		return result;
+	}
+	
+	public String reverseMemberShppeType( String type ) {
+		String result = null;
+		if ( type.equals("美食") ) {
+			result = "deliciousfood";
+		} else if ( type.equals("丽人") ) {
+			result = "beauty";
+		} else if ( type.equals("休闲") ) {
+			result = "fallow";
+		} else if ( type.equals("体检") ) {
+			result = "examination";
+		} else if ( type.equals("理疗") ) {
+			result = "therapy";
+		} else if ( type.equals("便民") ) {
+			result = "convenient";
+		} else if ( type.equals("酒店") ) {
+			result = "hotel";
+		} else if ( type.equals("爱车") ) {
+			result = "car";
+		} else if ( type.equals("食品") ) {
+			result = "food";
+		} else if ( type.equals("家纺") ) {
+			result = "textile";
+		} else if ( type.equals("洗护") ) {
+			result = "wash";
+		} else {
+			result = "no";
+		}
+		return result;
+	}
+	
+	public String showPrivateOrderType( String type ) {
+		String result = null;
+		if ( type.equals("farm") ) {
+			result = "安全饮食";
+		} else if ( type.equals("doctor") ) {
+			result = "中医理疗";
+		} else if ( type.equals("lifeManager") ) {
+			result = "生活管家";
+		} else {
+			result = "未知";
+		}
+		return result;
+	}
+	
+	public String reversePrivateOrderType( String type ) {
+		String result = null;
+		if ( type.equals("安全饮食") ) {
+			result = "farm";
+		} else if ( type.equals("中医理疗") ) {
+			result = "doctor";
+		} else if ( type.equals("生活管家") ) {
+			result = "lifeManager";
+		} else {
+			result = "no";
+		}
+		return result;
+	}
+	
+	
 	public void shareInit() {
 		final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share");
 		// 设置分享内容

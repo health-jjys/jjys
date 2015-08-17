@@ -50,32 +50,25 @@ public class LoginActivity extends KJActivity implements OnGestureListener{
 	private Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			if ( msg.what == 1 ) {
-				String message = (String) msg.obj;
-				if ( "noUser".equals(message) ) {
+				if ( msg.what == 1 ) {
 					CustomToast.showToast(aty, "用户不存在！", 6000);
-				} else if ( "pwdIsWrong".equals(message) ) {
+				} else if ( msg.what == 2 ) {
 					CustomToast.showToast(aty, "密码错误！", 6000);
-				} else if ( "login".equals(message) ) {
-					HttpUserRequest request = new HttpUserRequest(aty,mHandler,6);
-					request.getUserInit(loginName.getText().toString());
-					request.start();
+				} else if ( msg.what == 3 ) {
+					MemberUserModel user = (MemberUserModel) msg.obj;
+					Editor editor = userPreferences.edit();
+					editor.putInt("userId", user.getUserId());
+					editor.putString("loginName", user.getLoginName());
+					editor.putString("userName", user.getUserName());
+					editor.putString("sex", user.getSex());
+					editor.putString("constitution", user.getConstitution());
+					editor.commit();
+					
+					if ( ActivityManager.getInstace().isEmpty() ) {
+						LoginActivity.this.showActivity(aty, HomeActivity.class);
+					}
+					LoginActivity.this.finish();
 				}
-			} else if ( msg.what == 2 ) {
-				MemberUserModel user = (MemberUserModel) msg.obj;
-				Editor editor = userPreferences.edit();
-				editor.putString("loginName", user.getLoginName());
-				editor.putString("password", user.getPassword());
-				editor.putString("userName", user.getUserName());
-				editor.putString("sex", user.getSex());
-				editor.putString("constitution", user.getConstitution());
-				editor.commit();
-				
-				if ( ActivityManager.getInstace().isEmpty() ) {
-					LoginActivity.this.showActivity(aty, HomeActivity.class);
-				}
-				LoginActivity.this.finish();
-			}
 			super.handleMessage(msg);
 		}
 	};

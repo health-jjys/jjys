@@ -183,18 +183,18 @@ public class TestQuestionsActivity extends KJActivity {
 				editor.putString("constitution", constitution);
 				editor.commit();
 				
-				String loginName = userPreferences.getString("loginName", null);
+				int userId = userPreferences.getInt("userId", -1);
 				String memberName = testPreferences.getString("userName", null);
-				if ( loginName != null ) {
+				if ( userId != -1 ) {
 					if ( "family".equals(who) ) {
 						//存储家人到数据库,并且获取家人的列表
 						HttpUserRequest request = new HttpUserRequest(aty,mHandler,2);
-						request.addMemberInit(loginName, memberName, constitution);
+						request.addMemberInit(userId, memberName, constitution);
 						request.start();
 					} else {
 						//存储自己到数据库
 						HttpUserRequest request = new HttpUserRequest(aty,mHandler,5);
-						request.saveUserInfoInit(loginName, memberName, sex, constitution);
+						request.saveUserInfoInit(userId, memberName, sex, constitution);
 						request.start();
 						
 						Editor userEditor = userPreferences.edit();

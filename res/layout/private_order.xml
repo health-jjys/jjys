@@ -42,7 +42,7 @@
 	        android:orientation="horizontal" >
 	
 	        <Button
-	            android:id="@+id/private_order_safeFood"
+	            android:id="@+id/private_order_item1"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
@@ -51,7 +51,7 @@
 	            android:textColor="@color/ajk_selected" />
 	
 	        <Button
-	            android:id="@+id/private_order_doctor"
+	            android:id="@+id/private_order_item2"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
@@ -60,7 +60,7 @@
 	            android:textColor="@color/ajk" />
 	        
 	        <Button
-	            android:id="@+id/private_order_life"
+	            android:id="@+id/private_order_item3"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"

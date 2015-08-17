@@ -73,12 +73,12 @@ public class FamilyActivity extends KJActivity implements OnGestureListener{
 		ActivityManager.getInstace().addActivity(aty);
 		
 		userPreferences = getSharedPreferences("user", MODE_WORLD_READABLE);
-		String loginName = userPreferences.getString("loginName", null);
+		int userId = userPreferences.getInt("userId", -1);
 		
 		adapter = new FamilyListAdapter(family,aty,mHandler);
 		
 		HttpUserRequest request = new HttpUserRequest(aty, mHandler, 3);
-		request.getMembersInit(loginName);
+		request.getMembersInit(userId);
 		request.start();
 	}
 

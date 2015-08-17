@@ -1,27 +1,27 @@
 package com.yc.health;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.kymjs.kjframe.KJActivity;
 import org.kymjs.kjframe.ui.BindView;
+import org.kymjs.kjframe.widget.RoundImageView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
-import com.baidu.location.Poi;
 import com.yc.health.adapter.MyListAdapter;
 import com.yc.health.fragment.PersonalPopupWindow;
 import com.yc.health.http.HttpUserRequest;
 import com.yc.health.manager.ActivityManager;
 import com.yc.health.model.MemberUserModel;
-import com.yc.health.util.Logutil;
 import com.yc.health.util.Method;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.view.GestureDetector;
@@ -37,13 +37,14 @@ import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 
 public class PersonalActivity extends KJActivity implements OnGestureListener{
+	
 	private LocationMode tempMode=LocationMode.Hight_Accuracy;
 	private LocationClient mLocationClient;
 	private String tempcoor="bd09ll";
 	@BindView(id = R.id.personal_back, click = true)
 	private ImageView backBtn;
 	@BindView(id = R.id.personal_headimg, click = true)
-	private ImageView headImg;
+	private RoundImageView headImg;
 	@BindView(id = R.id.personal_name, click = true)
 	private TextView nameText;
 	@BindView(id = R.id.personal_constitution, click = true)
@@ -59,6 +60,8 @@ public class PersonalActivity extends KJActivity implements OnGestureListener{
 	private ArrayList<Integer> icons = null;
 	private MyListAdapter adapter = null;
 	private SharedPreferences userPreferences;
+	
+	private int userId = -1;
 	
 	private PersonalPopupWindow menuWindow = null;
 	private GestureDetector gestureDetector;
@@ -85,6 +88,7 @@ public class PersonalActivity extends KJActivity implements OnGestureListener{
 		initLocation();
         mLocationClient.start();//定位SDK start之后会默认发起一次定位请求，开发者无须判断isstart并主动调用request
 	}
+	
     private void initLocation(){
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(tempMode);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
@@ -106,7 +110,6 @@ public class PersonalActivity extends KJActivity implements OnGestureListener{
     
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
 		mLocationClient.stop();
 		super.onStop();
 	}
@@ -126,11 +129,7 @@ public class PersonalActivity extends KJActivity implements OnGestureListener{
 		init();
 		
 		userPreferences = getSharedPreferences("user", MODE_WORLD_READABLE);
-		String loginName = userPreferences.getString("loginName", null);
-		
-		HttpUserRequest request = new HttpUserRequest(aty,mHandler,6);
-		request.getUserInit(loginName);
-		request.start();
+		userId = userPreferences.getInt("userId", -1);
 	}
 	
 	private void init() {
@@ -198,6 +197,20 @@ public class PersonalActivity extends KJActivity implements OnGestureListener{
 	}
 	
 	@Override
+	protected void onResume() {
+		Method method = new Method(aty);
+		Bitmap bm = method.getHeadBitmap();
+		BitmapDrawable bd= new BitmapDrawable(aty.getResources(), bm);
+		headImg.setImageDrawable(bd);
+		
+		HttpUserRequest request = new HttpUserRequest(aty,mHandler,6);
+		request.getUserInit(userId);
+		request.start();
+		
+		super.onResume();
+	}
+	
+	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		return gestureDetector.onTouchEvent(event);
 	}
@@ -260,10 +273,9 @@ public class PersonalActivity extends KJActivity implements OnGestureListener{
 
         @Override
         public void onReceiveLocation(BDLocation location) {
-            //Receive Location
         	String pro=location.getProvince();
         	locationText.setSingleLine(false);
-        	locationText.setText(pro+",\n"+location.getCity());
+        	locationText.setText(pro+location.getCity());
         	return;
         }
 

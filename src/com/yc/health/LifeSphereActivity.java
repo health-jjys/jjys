@@ -9,12 +9,16 @@ import org.kymjs.kjframe.ui.BindView;
 import com.yc.health.adapter.LifeSphereGridViewAdapter;
 import com.yc.health.adapter.LifeSphereListAdapter;
 import com.yc.health.fragment.PersonalPopupWindow;
+import com.yc.health.http.HttpMemberShoppeRequest;
 import com.yc.health.manager.ActivityManager;
-import com.yc.health.model.LifeSphereModel;
+import com.yc.health.model.MemberShoppeModel;
 import com.yc.health.util.ListUtils;
 import com.yc.health.util.Method;
 import com.yc.health.widget.GridCommodity;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -36,16 +40,28 @@ public class LifeSphereActivity extends KJActivity implements OnGestureListener{
 	@BindView(id = R.id.lifeSphere_grid, click = true)
 	private ListView listView;
 	
-	private List<LifeSphereModel> list = new ArrayList<LifeSphereModel>();
-	private LifeSphereGridViewAdapter gridAdapter = null;
-	private LifeSphereListAdapter listAdapter = null;
-	
 	private float x = 0f;
 	private float y = 0f;
 	
 	private PersonalPopupWindow menuWindow = null;
 	private GestureDetector gestureDetector;
 	
+	private String type = null;
+	private List<MemberShoppeModel> list = new ArrayList<MemberShoppeModel>();
+	private LifeSphereGridViewAdapter gridAdapter = null;
+	private LifeSphereListAdapter listAdapter = null;
+	private Handler mHandler = new Handler() {
+		@SuppressWarnings("unchecked")
+		@Override
+		public void handleMessage(Message msg) {
+			if ( msg.what == 1 ) {
+				list = (ArrayList<MemberShoppeModel>) msg.obj;
+				listAdapter.setList(list);
+				listAdapter.notifyDataSetChanged();
+			}
+			super.handleMessage(msg);
+		}
+	};
 	@Override
 	public void setRootView() {
 		setContentView(R.layout.lifesphere);
@@ -59,6 +75,11 @@ public class LifeSphereActivity extends KJActivity implements OnGestureListener{
 		
 		gridAdapter = new LifeSphereGridViewAdapter(aty);
 		listAdapter = new LifeSphereListAdapter(list,aty);
+		
+		type = "";
+		HttpMemberShoppeRequest request = new HttpMemberShoppeRequest(aty,mHandler,1);
+		request.getMemberShoppeInit(type,12);
+		request.start();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -74,31 +95,52 @@ public class LifeSphereActivity extends KJActivity implements OnGestureListener{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
+				Bundle bundle = new Bundle();
 				//跳转到某一类的列表
-				LifeSphereActivity.this.showActivity(aty, LifeSphereListActivity.class);
+				switch(position) {
+				case 0:
+					bundle.putString("type", "deliciousfood");
+					break;
+				case 1:
+					bundle.putString("type", "beauty");
+					break;
+				case 2:
+					bundle.putString("type", "fallow");
+					break;
+				case 3:
+					bundle.putString("type", "examination");
+					break;
+				case 4:
+					bundle.putString("type", "therapy");
+					break;
+				case 5:
+					bundle.putString("type", "convenient");
+					break;
+				case 6:
+					bundle.putString("type", "hotel");
+					break;
+				case 7:
+					bundle.putString("type", "car");
+					break;
+				}
+				LifeSphereActivity.this.showActivity(aty, LifeSphereListActivity.class, bundle);
 			}
 		});
 		
 		listView = (ListView) this.findViewById(R.id.lifeSphere_list);
 		listView.setAdapter(listAdapter);
-		new ListUtils(this).setListViewHeightBasedOnChildren(listView,105);
-		listView.setOnTouchListener(new OnTouchListener(){
+		new ListUtils(this).setListViewHeightBasedOnChildren(listView,180);
+		listView.setOnItemClickListener(new OnItemClickListener(){
 			@Override
-			public boolean onTouch(View arg0, MotionEvent e) {
-				if ( e.getAction() == MotionEvent.ACTION_DOWN ) {
-					x = (int)e.getX();
-					y = (int)e.getY();
-				} 
-				
-				if ( e.getAction() == MotionEvent.ACTION_UP ) {
-					if ( 50 > Math.abs(e.getX()-x) && 50 > Math.abs(e.getY()-y) ) {
-						LifeSphereActivity.this.showActivity(aty, DetailActivity.class);
-						return false;
-					} else {
-						return true;
-					}
-				}
-				return false;
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				Bundle bundle = new Bundle();
+				bundle.putString("name", list.get(position).getName());
+				bundle.putString("description", list.get(position).getName());
+				bundle.putString("address", list.get(position).getName());
+				bundle.putString("path", list.get(position).getImagePath());
+				bundle.putString("type", list.get(position).getType());
+				LifeSphereActivity.this.showActivity(aty, TypeDetailActivity.class, bundle);
 			}
 		});
 	}

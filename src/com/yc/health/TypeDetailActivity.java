@@ -6,19 +6,18 @@ import java.util.List;
 import org.kymjs.kjframe.KJActivity;
 import org.kymjs.kjframe.ui.BindView;
 
-import com.yc.health.adapter.PrivateOrderListAdapter;
+import com.yc.health.adapter.LifeSphereListAdapter;
+import com.yc.health.adapter.MemberShoppeListAdapter;
 import com.yc.health.fragment.PersonalPopupWindow;
 import com.yc.health.http.HttpMemberShoppeRequest;
 import com.yc.health.manager.ActivityManager;
-import com.yc.health.model.PrivateOrderModel;
+import com.yc.health.model.MemberShoppeModel;
 import com.yc.health.util.Method;
 import com.yc.health.widget.GridCommodity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,41 +26,37 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.GestureDetector.OnGestureListener;
-import android.webkit.WebView;
 import android.webkit.WebSettings.LayoutAlgorithm;
+import android.webkit.WebView;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.PopupWindow.OnDismissListener;
 
-public class DetailActivity extends KJActivity implements OnGestureListener{
+public class TypeDetailActivity extends KJActivity implements OnGestureListener{
 
-	@BindView(id = R.id.detail_back, click = true)
+	@BindView(id = R.id.type_detail_back, click = true)
 	private ImageView backBtn;
-	@BindView(id = R.id.detail_location, click = true)
+	@BindView(id = R.id.type_detail_location, click = true)
 	private ImageView locationBtn;
-	@BindView(id = R.id.detail_title)
+	@BindView(id = R.id.type_detail_title)
 	private TextView titleText;
 	
-	@BindView(id = R.id.detail_img, click = true)
+	@BindView(id = R.id.type_detail_img, click = true)
 	private WebView img;
-	@BindView(id = R.id.detail_desc_title)
+	@BindView(id = R.id.type_detail_desc_title)
 	private TextView descTitleText;//需要划下划线的标题
-	@BindView(id = R.id.detail_recommend_title)
+	@BindView(id = R.id.type_detail_recommend_title)
 	private TextView recommendTitleText;//需要划下划线的标题
-	@BindView(id = R.id.detail_collection, click = true)
+	@BindView(id = R.id.type_detail_collection, click = true)
 	private ImageView collectionBtn;
-	@BindView(id = R.id.detail_name)
+	@BindView(id = R.id.type_detail_name)
 	private TextView nameText;
-	@BindView(id = R.id.detail_describe)
+	@BindView(id = R.id.type_detail_describe)
 	private TextView describeText;
-	@BindView(id = R.id.detail_message, click = true)
-	private ImageView messageBtn;
-	@BindView(id = R.id.detail_phone, click = true)
-	private ImageView phoneBtn;
 	
-	@BindView(id = R.id.detail_grid, click = true)
+	@BindView(id = R.id.type_detail_grid, click = true)
 	private GridCommodity recommendGrid;
 	
 	private SharedPreferences userPreferences;
@@ -71,17 +66,23 @@ public class DetailActivity extends KJActivity implements OnGestureListener{
 	private GestureDetector gestureDetector;
 	
 	private String type = null;
-	private List<PrivateOrderModel> list = new ArrayList<PrivateOrderModel>();
-	private PrivateOrderListAdapter adapter = null;
-	private PrivateOrderModel item = new PrivateOrderModel();
+	private List<MemberShoppeModel> recommends = new ArrayList<MemberShoppeModel>();
+	private LifeSphereListAdapter lAdapter = null;
+	private MemberShoppeListAdapter mAdapter = null;
+	private MemberShoppeModel item = new MemberShoppeModel();
 	private Handler mHandler = new Handler(){
 		@SuppressWarnings("unchecked")
 		@Override
 		public void handleMessage(Message msg) {
 			if ( msg.what == 1 ) {
-				list = (List<PrivateOrderModel>) msg.obj;
-				adapter.setList(list);
-				adapter.notifyDataSetChanged();
+				recommends = (List<MemberShoppeModel>) msg.obj;
+				if ( "food".equals(type) || "textile".equals(type) || "wash".equals(type) ) {
+					mAdapter.setList(recommends);
+					mAdapter.notifyDataSetChanged();
+				} else {
+					lAdapter.setList(recommends);
+					lAdapter.notifyDataSetChanged();
+				}
 			}
 			super.handleMessage(msg);
 		}
@@ -89,7 +90,7 @@ public class DetailActivity extends KJActivity implements OnGestureListener{
 	
 	@Override
 	public void setRootView() {
-		setContentView(R.layout.detail);
+		setContentView(R.layout.type_detail);
 	}
 
 	@SuppressLint("WorldReadableFiles") 
@@ -104,18 +105,21 @@ public class DetailActivity extends KJActivity implements OnGestureListener{
 		loginName = userPreferences.getString("loginName", null);
 		
 		Bundle bundle = this.getIntent().getExtras();
-		item.setPhone(bundle.getString("phone"));
 		item.setAddress(bundle.getString("address"));
 		item.setDescription(bundle.getString("description"));
 		item.setImagePath(bundle.getString("path"));
 		item.setName(bundle.getString("name"));
 		
 		Method method = new Method();
-		type = method.reversePrivateOrderType(bundle.getString("type"));
-		adapter = new PrivateOrderListAdapter(list,aty);
+		type = method.reverseMemberShppeType(bundle.getString("type"));
+		if ( "food".equals(type) || "textile".equals(type) || "wash".equals(type) ) {
+			mAdapter = new MemberShoppeListAdapter(recommends,aty);
+		} else {
+			lAdapter = new LifeSphereListAdapter(recommends,aty);
+		}
 		
-		HttpMemberShoppeRequest request = new HttpMemberShoppeRequest(aty,mHandler,2);
-		request.getPrivateOrderInit(type, 3);
+		HttpMemberShoppeRequest request = new HttpMemberShoppeRequest(aty,mHandler,1);
+		request.getMemberShoppeInit(type, 3);
 		request.start();
 	}
 
@@ -132,7 +136,6 @@ public class DetailActivity extends KJActivity implements OnGestureListener{
 		recommendTitleText.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 		recommendTitleText.getPaint().setAntiAlias(true);
 		
-		
 		nameText.setText(item.getName());
 		describeText.setText(item.getDescription());
 		
@@ -141,22 +144,26 @@ public class DetailActivity extends KJActivity implements OnGestureListener{
 		img.setBackgroundColor(this.getResources().getColor(R.color.transparent));
 		img.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
 		img.getSettings().setLoadWithOverviewMode(true);
-		
-		recommendGrid = (GridCommodity) this.findViewById(R.id.detail_grid);
-		recommendGrid.setAdapter(adapter);
+
+		//推荐
+		recommendGrid = (GridCommodity) this.findViewById(R.id.type_detail_grid);
+		if ( "food".equals(type) || "textile".equals(type) || "wash".equals(type) ) {
+			recommendGrid.setAdapter(mAdapter);
+		} else {
+			recommendGrid.setAdapter(lAdapter);
+		}
 		recommendGrid.setOnItemClickListener(new OnItemClickListener(){
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
 				Bundle bundle = new Bundle();
-				bundle.putInt("id", list.get(position).getPrivateOrderId());
-				bundle.putString("name", list.get(position).getName());
-				bundle.putString("description", list.get(position).getName());
-				bundle.putString("phone", list.get(position).getPhone());
-				bundle.putString("address", list.get(position).getName());
-				bundle.putString("path", list.get(position).getImagePath());
-				bundle.putString("type", list.get(position).getType());
-				DetailActivity.this.showActivity(aty, DetailActivity.class, bundle);
+				bundle.putInt("id", recommends.get(position).getMemberShoppeId());
+				bundle.putString("name", recommends.get(position).getName());
+				bundle.putString("description", recommends.get(position).getName());
+				bundle.putString("address", recommends.get(position).getName());
+				bundle.putString("path", recommends.get(position).getImagePath());
+				bundle.putString("type", recommends.get(position).getType());
+				TypeDetailActivity.this.showActivity(aty, TypeDetailActivity.class, bundle);
 			}
 		});
 	}
@@ -166,24 +173,19 @@ public class DetailActivity extends KJActivity implements OnGestureListener{
 		super.widgetClick(v);
 		
 		switch(v.getId()) {
-		case R.id.detail_back:
+		case R.id.type_detail_back:
 			this.finish();
 			break;
-		case R.id.detail_location:
+		case R.id.type_detail_location:
 			this.showActivity(aty, DoctNavActivity.class);
 			break;
-		case R.id.detail_collection:
+		case R.id.type_detail_collection:
 			if ( loginName == null ) {
 				Method method = new Method(aty);
 				method.loginHint();
 			} else {
 				
 			}
-			break;
-		case R.id.detail_phone:
-			Intent intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:" + item.getPhone()));
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
 			break;
 		}
 	}
@@ -211,7 +213,7 @@ public class DetailActivity extends KJActivity implements OnGestureListener{
 		if ( (e2.getX() - e1.getX()) > 80 && Math.abs(e2.getY() - e1.getY()) < 80 ) {
 			if ( menuWindow == null ) {
 				menuWindow = new PersonalPopupWindow(aty);//显示窗口  
-	            menuWindow.showAtLocation(this.findViewById(R.id.detail), 
+	            menuWindow.showAtLocation(this.findViewById(R.id.type_detail), 
 	            		Gravity.LEFT | Gravity.BOTTOM, 0, 0); 
 	            menuWindow.setOnDismissListener(new OnDismissListener(){
 					@Override

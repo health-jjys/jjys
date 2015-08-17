@@ -1,0 +1,148 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/type_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView 
+	    android:layout_width="match_parent"
+	  	android:layout_height="match_parent"
+	  	android:background="@drawable/bg"/>
+    
+    <com.yc.health.widget.CustomScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none" >
+		<LinearLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:orientation="vertical" >
+		    
+		    <WebView 
+		        android:id="@+id/type_detail_img"
+			    android:layout_width="match_parent"
+			  	android:layout_height="wrap_content"/>
+		    
+		    <RelativeLayout 
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="13dp"
+			    android:layout_marginRight="13dp"
+			    android:layout_marginTop="20dp">
+		        <TextView 
+		            android:id="@+id/type_detail_desc_title"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="详情"
+			        android:textColor="@color/ajk_selected"
+			        android:textSize="@dimen/title"/>
+		        
+		        <TextView 
+		            android:id="@+id/type_detail_collection_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_alignParentRight="true"
+			        android:layout_centerVertical="true"
+			        android:text="收藏"
+			        android:textColor="@color/ajk"
+			        android:textSize="@dimen/second_title"/>
+		        
+		        <ImageView 
+		            android:id="@+id/type_detail_collection"
+		            android:layout_toLeftOf="@id/type_detail_collection_text"
+		            android:layout_centerVertical="true"
+				    android:layout_width="wrap_content"
+				  	android:layout_height="wrap_content"
+				  	android:layout_marginRight="12dp"
+				  	android:background="@drawable/btn_sc_nor"/>
+			</RelativeLayout>
+			
+		    <TextView 
+	            android:id="@+id/type_detail_name"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="13dp"
+		        android:layout_marginTop="10dp"
+		        android:text="陈医生"
+		        android:textColor="@color/ajk"
+		        android:textSize="@dimen/title"/>
+		    
+		    <TextView 
+	            android:id="@+id/type_detail_describe"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="13dp"
+		        android:layout_marginTop="10dp"
+		        android:lineSpacingMultiplier="1.2"
+		        android:text="       中国中医首席代表中国中医首席代表中国中医首席代表中国中医首席代表中国中医首席代表中国中医首席代表中国中医首席代表"
+		        android:textColor="@color/ajk"
+		        android:textSize="@dimen/text"/>
+		    
+		    <View 
+		        android:layout_width="wrap_content"
+		        android:layout_height="1dp"
+		        android:layout_marginTop="10dp"
+		        android:layout_marginLeft="13dp"
+		        android:layout_marginRight="13dp"
+		        android:background="@color/line"/>
+		    
+		    <TextView 
+	            android:id="@+id/type_detail_recommend_title"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="13dp"
+		        android:layout_marginTop="20dp"
+		        android:text="@string/aboutrecommend"
+		        android:textColor="@color/ajk_selected"
+		        android:textSize="@dimen/title"/>
+		    
+		    <com.yc.health.widget.GridCommodity
+	            android:id="@+id/type_detail_grid"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:gravity="center"
+	            android:layout_marginTop="20dp"
+	            android:layout_marginLeft="20dp"
+	            android:layout_marginRight="20dp"
+	            android:horizontalSpacing="10dp"
+	            android:verticalSpacing="20dp"
+	            android:listSelector="@color/transparent"
+	            android:numColumns="3"
+	            android:stretchMode="columnWidth" />
+		</LinearLayout>
+	</com.yc.health.widget.CustomScrollView>
+	
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightgrade">
+        
+        <ImageView 
+            android:id="@+id/type_detail_back"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="10dp"
+	        android:src="@drawable/btn_back_nor"/>
+        
+        <Button 
+            android:id="@+id/type_detail_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerInParent="true"
+	        android:text="详情"
+	        android:textColor="@color/white"
+	        android:textSize="@dimen/title"
+	        android:background="@color/transparent"/>
+        
+        <ImageView 
+            android:id="@+id/type_detail_location"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+	        android:layout_marginRight="10dp"
+	        android:src="@drawable/btn_dw_nor"/>
+    </RelativeLayout>
+</FrameLayout>

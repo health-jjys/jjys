@@ -23,9 +23,9 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.MediaController;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.ImageButton;
-import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -81,15 +81,20 @@ public class VideoDetailActivity extends KJActivity implements OnGestureListener
 		
 		mUri = Uri.parse(Environment.getExternalStorageDirectory() + "/3.mp4");
         mMediaController = new MediaController(this);
+        mMediaController.setVisibility(View.VISIBLE);
         video = (VideoView) this.findViewById(R.id.likehealth_video_video);
         video.setMediaController(mMediaController);
+        mMediaController.setAnchorView(video);
+        video.setBackgroundResource(R.color.transparent);
+		video.setVideoURI(mUri);
+        video.start();
         video.setOnTouchListener(new OnTouchListener(){
 			@Override
 			public boolean onTouch(View arg0, MotionEvent ev) {
 				if ( ev.getY() > 100 ) {
-					video.setBackgroundResource(R.color.transparent);
-					video.setVideoURI(mUri);
-			        video.start();
+//					video.setBackgroundResource(R.color.transparent);
+//					video.setVideoURI(mUri);
+//			        video.start();
 					return true;
 				} else if ( ev.getY() < 100 ){
 					if ( ev.getX() < 100 ) {

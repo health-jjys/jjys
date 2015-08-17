@@ -24,7 +24,6 @@ public class GridCommodity extends GridView {
 		if (ev.getAction() == MotionEvent.ACTION_MOVE) {
 			return true;// 禁止Gridview进行滑动
 		}
-
 		return super.dispatchTouchEvent(ev);
 	}
 
