@@ -10,6 +10,7 @@ import com.yc.health.util.ListUtils;
 import com.yc.health.util.Method;
 import com.yc.health.widget.GridCommodity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
@@ -113,7 +114,7 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 		case R.id.likehealth_video_video:
 			Intent intent=new Intent(); 
 			intent.setAction(Intent.ACTION_VIEW);
-			Uri data=Uri.parse(Environment.getExternalStorageDirectory()+"/1.mp4");
+			Uri data=Uri.parse(Environment.getExternalStorageDirectory()+"/VIDEO0001.mp4");
 			//Uri data=Uri.parse("http://www.letv.com/ptv/vplay/23198678.html");
 			intent.setDataAndType(data, "video/*");	
 			startActivity(intent);
@@ -157,6 +158,7 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 		animation.setDuration(500);
 		btnSelected.startAnimation(animation);
 		animation.setAnimationListener(new AnimationListener() {
+			@SuppressLint("NewApi")
 			@Override
 			public void onAnimationEnd(Animation arg0) {
 				btnSelected.clearAnimation();
