@@ -1,19 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/docnav"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<com.baidu.mapapi.map.MapView
-        android:id="@+id/bmapView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:clickable="true" />
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
-<Button
-    android:id="@+id/btnstartnav"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="开始导航" >
+ <Button
+     android:id="@+id/btnreturn"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:text="返回" >
 </Button>
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+         android:layout_marginTop="@dimen/activity_vertical_margin"
+        >
+       
+         <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="驾车"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            />
+
+         <Button
+              android:layout_marginLeft="@dimen/activity_horizontal_margin"
+             android:id="@+id/car_navi_route"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="计算路径" />
+
+         <Button
+             android:id="@+id/car_navi_emulator"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="模拟导航" />
+
+         <Button
+             android:id="@+id/car_navi_navi"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="开始导航" />
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+         android:layout_marginTop="@dimen/activity_vertical_margin"
+        >
+          <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="步行"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            />
+          <Button
+              android:layout_marginLeft="@dimen/activity_horizontal_margin"
+             android:id="@+id/foot_navi_route"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="计算路径" />
+
+         <Button
+             android:id="@+id/foot_navi_emulator"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="模拟导航" />
+
+         <Button
+             android:id="@+id/foot_navi_navi"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="开始导航" />
+    </LinearLayout>
+   <com.amap.api.maps.MapView
+        android:id="@+id/simple_route_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:layout_weight="1"
+        />
+</LinearLayout>

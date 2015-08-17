@@ -1,50 +1,49 @@
 package com.yc.health;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.kymjs.kjframe.KJActivity;
 import org.kymjs.kjframe.ui.BindView;
-import org.kymjs.kjframe.widget.RoundImageView;
-
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.location.LocationClientOption.LocationMode;
-import com.yc.health.adapter.MyListAdapter;
-import com.yc.health.fragment.PersonalPopupWindow;
-import com.yc.health.http.HttpUserRequest;
-import com.yc.health.manager.ActivityManager;
-import com.yc.health.model.MemberUserModel;
-import com.yc.health.util.Method;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.GestureDetector.OnGestureListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 
-public class PersonalActivity extends KJActivity implements OnGestureListener{
-	
-	private LocationMode tempMode=LocationMode.Hight_Accuracy;
-	private LocationClient mLocationClient;
-	private String tempcoor="bd09ll";
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.location.LocationManagerProxy;
+import com.amap.api.location.LocationProviderProxy;
+import com.yc.health.adapter.MyListAdapter;
+import com.yc.health.fragment.PersonalPopupWindow;
+import com.yc.health.http.HttpUserRequest;
+import com.yc.health.manager.ActivityManager;
+import com.yc.health.model.MemberUserModel;
+import com.yc.health.util.Logutil;
+import com.yc.health.util.Method;
+
+public class PersonalActivity extends KJActivity implements OnGestureListener,AMapLocationListener{
+	private LocationManagerProxy mLocationManagerProxy;
 	@BindView(id = R.id.personal_back, click = true)
 	private ImageView backBtn;
 	@BindView(id = R.id.personal_headimg, click = true)
-	private RoundImageView headImg;
+	private ImageView headImg;
 	@BindView(id = R.id.personal_name, click = true)
 	private TextView nameText;
 	@BindView(id = R.id.personal_constitution, click = true)
@@ -55,17 +54,17 @@ public class PersonalActivity extends KJActivity implements OnGestureListener{
 	private ImageView qrCodeBtn;
 	@BindView(id = R.id.my_info, click = true)
 	private ListView myList;
-	
+	private Random mRandom=new Random();
 	private ArrayList<String> textList = null;
 	private ArrayList<Integer> icons = null;
 	private MyListAdapter adapter = null;
 	private SharedPreferences userPreferences;
-	
 	private int userId = -1;
 	
 	private PersonalPopupWindow menuWindow = null;
 	private GestureDetector gestureDetector;
 	
+	@SuppressLint("HandlerLeak") 
 	private Handler mHandler = new Handler(){
 		@Override
 		public void handleMessage(Message msg) {
@@ -85,34 +84,38 @@ public class PersonalActivity extends KJActivity implements OnGestureListener{
 	@Override
 	public void setRootView() {
 		setContentView(R.layout.personal);
-		initLocation();
-        mLocationClient.start();//定位SDK start之后会默认发起一次定位请求，开发者无须判断isstart并主动调用request
+		initloc();
 	}
-	
-    private void initLocation(){
-        LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(tempMode);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
-        option.setCoorType(tempcoor);//可选，默认gcj02，设置返回的定位结果坐标系，
-        int span=1000;
-        option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
-        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
-        option.setOpenGps(true);//可选，默认false,设置是否使用gps
-        option.setLocationNotify(true);//可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
-        option.setIgnoreKillProcess(true);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
-        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤gps仿真结果，默认需要
-        option.setIsNeedLocationDescribe(true);//可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
-        option.setIsNeedLocationPoiList(true);//可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
-        mLocationClient = new LocationClient(this.getApplicationContext());
-        mLocationClient.setLocOption(option);
-        MyLocationListener mMyLocationListener = new MyLocationListener();
-        mLocationClient.registerLocationListener(mMyLocationListener);
-    }
-    
+
+	private void initloc() {
+		// 初始化定位，只采用网络定位
+		mLocationManagerProxy = LocationManagerProxy.getInstance(this);
+		mLocationManagerProxy.setGpsEnable(false);
+		// 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+		// 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用removeUpdates()方法来取消定位请求
+		// 在定位结束后，在合适的生命周期调用destroy()方法
+		// 其中如果间隔时间为-1，则定位只定一次,
+		//在单次定位情况下，定位无论成功与否，都无需调用removeUpdates()方法移除请求，定位sdk内部会移除
+		mLocationManagerProxy.requestLocationData(
+				LocationProviderProxy.AMapNetwork, 60*1000, -1, this);
+		Logutil.Log("StartLocMgr");
+		mHandler.postDelayed(getloc, 1000);
+	}
+	Runnable getloc= new Runnable() {
+		public void run() {
+			Logutil.Log("getloc once");
+			mLocationManagerProxy.removeUpdates(PersonalActivity.this);
+			int randomTime=mRandom.nextInt(1000);
+			mLocationManagerProxy.requestLocationData(
+					LocationProviderProxy.AMapNetwork, 60*1000+randomTime, -1, PersonalActivity.this);
+			mLocationManagerProxy.setGpsEnable(false);
+		}
+	};
 	@Override
 	protected void onStop() {
-		mLocationClient.stop();
 		super.onStop();
 	}
+	
 	@SuppressLint("WorldReadableFiles") 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -193,6 +196,9 @@ public class PersonalActivity extends KJActivity implements OnGestureListener{
 		case R.id.personal_back:
 			this.finish();
 			break;
+		case R.id.personal_location:
+			mHandler.postDelayed(getloc, 1000);
+			break;
 		}
 	}
 	
@@ -266,20 +272,40 @@ public class PersonalActivity extends KJActivity implements OnGestureListener{
 	public boolean onSingleTapUp(MotionEvent arg0) {
 		return false;
 	}
-	/**
-     * 实现实时位置回调监听
-     */
-    public class MyLocationListener implements BDLocationListener {
-
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-        	String pro=location.getProvince();
-        	locationText.setSingleLine(false);
-        	locationText.setText(pro+location.getCity());
-        	return;
-        }
 
 
-    }
+	@Override
+	public void onLocationChanged(Location arg0) {
+		Logutil.Log(arg0.getLongitude()+"_lat:"+arg0.getLatitude());
+	}
+
+
+	@Override
+	public void onProviderDisabled(String arg0) {
+	}
+
+
+	@Override
+	public void onProviderEnabled(String arg0) {
+	}
+
+
+	@Override
+	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+	}
+
+
+	@Override
+	public void onLocationChanged(AMapLocation arg0) {
+		if (arg0!=null&&arg0.getAMapException().getErrorCode() == 0) {
+			Logutil.Log("locChgAmp_"+arg0.getProvince()+"_"+arg0.getCity());
+			locationText.setText(arg0.getProvince()+",\n"+arg0.getCity());
+		}else {
+			Logutil.Log("LocErr:"+arg0.getAMapException().getErrorMessage());
+			Logutil.ShowToast(PersonalActivity.this, "定位错误："+arg0.getAMapException().getMessage(),true);
+		}
+	}
+	
+
 }
 
