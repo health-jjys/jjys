@@ -6,7 +6,7 @@ import java.util.List;
 import org.kymjs.kjframe.KJActivity;
 import org.kymjs.kjframe.ui.BindView;
 
-import com.yc.health.adapter.PrivateOrderListAdapter;
+import com.yc.health.adapter.PrivateOrderDetailGridViewAdapter;
 import com.yc.health.fragment.PersonalPopupWindow;
 import com.yc.health.http.HttpMemberShoppeRequest;
 import com.yc.health.manager.ActivityManager;
@@ -72,7 +72,7 @@ public class DetailActivity extends KJActivity implements OnGestureListener{
 	
 	private String type = null;
 	private List<PrivateOrderModel> list = new ArrayList<PrivateOrderModel>();
-	private PrivateOrderListAdapter adapter = null;
+	private PrivateOrderDetailGridViewAdapter adapter = null;
 	private PrivateOrderModel item = new PrivateOrderModel();
 	private Handler mHandler = new Handler(){
 		@SuppressWarnings("unchecked")
@@ -112,7 +112,7 @@ public class DetailActivity extends KJActivity implements OnGestureListener{
 		
 		Method method = new Method();
 		type = method.reversePrivateOrderType(bundle.getString("type"));
-		adapter = new PrivateOrderListAdapter(list,aty);
+		adapter = new PrivateOrderDetailGridViewAdapter(list,aty);
 		
 		HttpMemberShoppeRequest request = new HttpMemberShoppeRequest(aty,mHandler,2);
 		request.getPrivateOrderInit(type, 3);

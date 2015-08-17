@@ -6,8 +6,7 @@ import java.util.List;
 import org.kymjs.kjframe.KJActivity;
 import org.kymjs.kjframe.ui.BindView;
 
-import com.yc.health.adapter.LifeSphereListAdapter;
-import com.yc.health.adapter.MemberShoppeListAdapter;
+import com.yc.health.adapter.MemberShoppeDetailGridViewAdapter;
 import com.yc.health.fragment.PersonalPopupWindow;
 import com.yc.health.http.HttpMemberShoppeRequest;
 import com.yc.health.manager.ActivityManager;
@@ -67,8 +66,7 @@ public class TypeDetailActivity extends KJActivity implements OnGestureListener{
 	
 	private String type = null;
 	private List<MemberShoppeModel> recommends = new ArrayList<MemberShoppeModel>();
-	private LifeSphereListAdapter lAdapter = null;
-	private MemberShoppeListAdapter mAdapter = null;
+	private MemberShoppeDetailGridViewAdapter adapter = null;
 	private MemberShoppeModel item = new MemberShoppeModel();
 	private Handler mHandler = new Handler(){
 		@SuppressWarnings("unchecked")
@@ -76,13 +74,8 @@ public class TypeDetailActivity extends KJActivity implements OnGestureListener{
 		public void handleMessage(Message msg) {
 			if ( msg.what == 1 ) {
 				recommends = (List<MemberShoppeModel>) msg.obj;
-				if ( "food".equals(type) || "textile".equals(type) || "wash".equals(type) ) {
-					mAdapter.setList(recommends);
-					mAdapter.notifyDataSetChanged();
-				} else {
-					lAdapter.setList(recommends);
-					lAdapter.notifyDataSetChanged();
-				}
+				adapter.setList(recommends);
+				adapter.notifyDataSetChanged();
 			}
 			super.handleMessage(msg);
 		}
@@ -112,11 +105,7 @@ public class TypeDetailActivity extends KJActivity implements OnGestureListener{
 		
 		Method method = new Method();
 		type = method.reverseMemberShppeType(bundle.getString("type"));
-		if ( "food".equals(type) || "textile".equals(type) || "wash".equals(type) ) {
-			mAdapter = new MemberShoppeListAdapter(recommends,aty);
-		} else {
-			lAdapter = new LifeSphereListAdapter(recommends,aty);
-		}
+		adapter = new MemberShoppeDetailGridViewAdapter(recommends,aty);
 		
 		HttpMemberShoppeRequest request = new HttpMemberShoppeRequest(aty,mHandler,1);
 		request.getMemberShoppeInit(type, 3);
@@ -147,11 +136,7 @@ public class TypeDetailActivity extends KJActivity implements OnGestureListener{
 
 		//推荐
 		recommendGrid = (GridCommodity) this.findViewById(R.id.type_detail_grid);
-		if ( "food".equals(type) || "textile".equals(type) || "wash".equals(type) ) {
-			recommendGrid.setAdapter(mAdapter);
-		} else {
-			recommendGrid.setAdapter(lAdapter);
-		}
+		recommendGrid.setAdapter(adapter);
 		recommendGrid.setOnItemClickListener(new OnItemClickListener(){
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,

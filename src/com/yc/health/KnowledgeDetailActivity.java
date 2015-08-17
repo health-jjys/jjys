@@ -13,6 +13,7 @@ import com.yc.health.util.Method;
 import com.zwq.view.effect.DepthPageTransformer;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.GestureDetector;
@@ -21,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.GestureDetector.OnGestureListener;
+import android.webkit.WebView;
+import android.webkit.WebSettings.LayoutAlgorithm;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,6 +46,11 @@ public class KnowledgeDetailActivity extends KJActivity implements OnGestureList
 	private List<View> listViews = null; //viewpager的所有view
 	private int currentPage = 0; //当前页面
 	
+	private String imagePath1 = null;
+	private String imagePath2 = null;
+	private String imagePath3 = null;
+	private String imagePath4 = null;
+
 	@Override
 	public void setRootView() {
 		setContentView(R.layout.knowledge_detail);
@@ -60,6 +68,12 @@ public class KnowledgeDetailActivity extends KJActivity implements OnGestureList
 		listViews.add(mInflater.inflate(R.layout.knowledgedetail_viewpager, null));
 		listViews.add(mInflater.inflate(R.layout.knowledgedetail_viewpager, null));
 		listViews.add(mInflater.inflate(R.layout.knowledgedetail_viewpager, null));
+		
+		Bundle bundle = this.getIntent().getExtras();
+		imagePath1 = bundle.getString("path1");
+		imagePath2 = bundle.getString("path2");
+		imagePath3 = bundle.getString("path3");
+		imagePath4 = bundle.getString("path4");
 	}
 
 	@SuppressWarnings("deprecation")
@@ -71,7 +85,15 @@ public class KnowledgeDetailActivity extends KJActivity implements OnGestureList
 		gestureDetector = new GestureDetector(this); // 手势滑动
 		
 		viewPager = (ViewPager) this.findViewById(R.id.knowledgedetail_viewPager);
+		
 		viewPager.setCurrentItem(0);
+		WebView img = (WebView) listViews.get(0).findViewById(R.id.knowledgedetail_viewpager_item);
+		String path = aty.getResources().getString(R.string.localhost) + imagePath1;
+		img.loadUrl(path);
+		img.setBackgroundColor(aty.getResources().getColor(R.color.transparent));
+		img.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+		img.getSettings().setLoadWithOverviewMode(true);
+		
 		viewPager.setAdapter(new MyPagerAdapter(listViews));
 		viewPager.setPageTransformer(true, new DepthPageTransformer());//设置动画
 		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
@@ -87,6 +109,22 @@ public class KnowledgeDetailActivity extends KJActivity implements OnGestureList
 			public void onPageSelected(int index) {
 				viewPager.setCurrentItem(index);
 				pageText.setText((index+1)+"/4");
+				
+				WebView img = (WebView) listViews.get(index).findViewById(R.id.knowledgedetail_viewpager_item);
+				String path = null;
+				if ( index == 0 ) {
+					path = aty.getResources().getString(R.string.localhost) + imagePath1;
+				} else if ( index == 1 ) {
+					path = aty.getResources().getString(R.string.localhost) + imagePath2;
+				} else if ( index == 2 ) {
+					path = aty.getResources().getString(R.string.localhost) + imagePath3;
+				} else if ( index == 3 ) {
+					path = aty.getResources().getString(R.string.localhost) + imagePath4;
+				}
+				img.loadUrl(path);
+				img.setBackgroundColor(aty.getResources().getColor(R.color.transparent));
+				img.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+				img.getSettings().setLoadWithOverviewMode(true);
 			}
 		});
 	}

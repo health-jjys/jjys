@@ -32,6 +32,7 @@ public class HttpMemberShoppeRequest extends Thread {
 	private final int getMemberShoppe = 1;
 	private final int getPrivateOrder = 2;
 	private final int recommendation = 3;
+	private final int getKnowledge = 4;
 	
 	private String type = null;
 	private int num = -1;

@@ -287,7 +287,7 @@ public class HttpUserRequest extends Thread {
 		});
 	}
 	
-	//添加用户
+	//保存会员信息
 	public void saveUserRequest() {
 		HttpParams params = new HttpParams();
 		try {

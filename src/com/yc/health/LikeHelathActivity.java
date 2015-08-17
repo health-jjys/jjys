@@ -1,19 +1,25 @@
 package com.yc.health;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kymjs.kjframe.KJActivity;
 import org.kymjs.kjframe.ui.BindView;
 
 import com.yc.health.adapter.LikeHealthGridViewAdapter;
 import com.yc.health.fragment.PersonalPopupWindow;
+import com.yc.health.http.HttpLikeHealthRequest;
 import com.yc.health.manager.ActivityManager;
+import com.yc.health.model.KnowledgeModel;
 import com.yc.health.util.ListUtils;
 import com.yc.health.util.Method;
 import com.yc.health.widget.GridCommodity;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.graphics.Paint;
-import android.net.Uri;
-import android.os.Environment;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -53,7 +59,20 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 	private PersonalPopupWindow menuWindow = null;
 	private GestureDetector gestureDetector;
 	
-	private LikeHealthGridViewAdapter knowledgeAdapter = null;
+	private List<KnowledgeModel> list = new ArrayList<KnowledgeModel>();
+	private LikeHealthGridViewAdapter adapter = null;
+	private Handler mHandler = new Handler(){
+		@SuppressWarnings("unchecked")
+		@Override
+		public void handleMessage(Message msg) {
+			if ( msg.what == 1 ) {
+				list = (List<KnowledgeModel>) msg.obj;
+				adapter.setList(list);
+				adapter.notifyDataSetChanged();
+			}
+			super.handleMessage(msg);
+		}
+	};
 	
 	@Override
 	public void setRootView() {
@@ -66,7 +85,12 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 		
 		ActivityManager.getInstace().addActivity(aty);
 		
-		knowledgeAdapter = new LikeHealthGridViewAdapter(aty);
+		adapter = new LikeHealthGridViewAdapter(aty);
+		adapter.setType("richText");
+		
+		HttpLikeHealthRequest request = new HttpLikeHealthRequest(aty,mHandler,1);
+		request.getKnowledgeInit("richText");
+		request.start();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -88,15 +112,25 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 		
 		//健康知识推荐
 		knowledgeGrid = (GridCommodity) this.findViewById(R.id.likehealth_knowledge);
-		knowledgeGrid.setAdapter(knowledgeAdapter);
+		knowledgeGrid.setAdapter(adapter);
 		knowledgeGrid.setOnItemClickListener(new OnItemClickListener(){
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
 				if ( curBtn == 1 ) {
-					LikeHelathActivity.this.showActivity(aty, KnowledgeDetailActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putString("path1", list.get(position).getImagePath1());
+					bundle.putString("path2", list.get(position).getImagePath2());
+					bundle.putString("path3", list.get(position).getImagePath3());
+					bundle.putString("path4", list.get(position).getImagePath4());
+					LikeHelathActivity.this.showActivity(aty, KnowledgeDetailActivity.class, bundle);
 				} else {
-					LikeHelathActivity.this.showActivity(aty, VideoDetailActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putInt("id", list.get(position).getKnowledgeID());
+					bundle.putString("title", list.get(position).getTitle());
+					bundle.putString("content", list.get(position).getContent());
+					bundle.putString("path", list.get(position).getVideoUrlPath());
+					LikeHelathActivity.this.showActivity(aty, VideoDetailActivity.class, bundle);
 				}
 			}
 		});
@@ -110,14 +144,6 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 		case R.id.likehealth_back:
 			this.finish();
 			break;
-		case R.id.likehealth_video_video:
-			Intent intent=new Intent(); 
-			intent.setAction(Intent.ACTION_VIEW);
-			Uri data=Uri.parse(Environment.getExternalStorageDirectory()+"/1.mp4");
-			//Uri data=Uri.parse("http://www.letv.com/ptv/vplay/23198678.html");
-			intent.setDataAndType(data, "video/*");	
-			startActivity(intent);
-			break;
 		case R.id.likehealth_knowledge_btn:
 			if ( curBtn != 1) {
 				curBtn = 1;
@@ -130,6 +156,7 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 					knowledgeBtn.setTextColor(this.getResources().getColor(R.color.ajk));
 					videoBtn.setTextColor(this.getResources().getColor(R.color.ajk_selected));
 				} 
+				adapter.setType("richText");
 			}
 			break;
 		case R.id.likehealth_video_btn:
@@ -144,6 +171,7 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 					knowledgeBtn.setTextColor(this.getResources().getColor(R.color.ajk));
 					videoBtn.setTextColor(this.getResources().getColor(R.color.ajk_selected));
 				}
+				adapter.setType("video");
 			}
 			break;
 		}
@@ -157,6 +185,7 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 		animation.setDuration(500);
 		btnSelected.startAnimation(animation);
 		animation.setAnimationListener(new AnimationListener() {
+			@SuppressLint("NewApi")
 			@Override
 			public void onAnimationEnd(Animation arg0) {
 				btnSelected.clearAnimation();
@@ -204,6 +233,7 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 					knowledgeBtn.setTextColor(this.getResources().getColor(R.color.ajk));
 					videoBtn.setTextColor(this.getResources().getColor(R.color.ajk_selected));
 				}
+				adapter.setType("richText");
 			}
 		} else if ( (e2.getX() - e1.getX()) < -120 && Math.abs(e2.getY() - e1.getY()) < 50 ) {
 			if ( curBtn != 2) {
@@ -216,6 +246,7 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 					knowledgeBtn.setTextColor(this.getResources().getColor(R.color.ajk));
 					videoBtn.setTextColor(this.getResources().getColor(R.color.ajk_selected));
 				}
+				adapter.setType("video");
 			}
 		} else if ( (e2.getX() - e1.getX()) > 50 && Math.abs(e2.getY() - e1.getY()) < 120 ) {
 			if ( menuWindow == null ) {

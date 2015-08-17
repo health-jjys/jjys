@@ -1,5 +1,7 @@
 package com.yc.health.http;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -8,6 +10,7 @@ import org.json.JSONObject;
 import org.kymjs.kjframe.KJHttp;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpConfig;
+import org.kymjs.kjframe.http.HttpParams;
 
 import com.yc.health.R;
 import com.yc.health.model.KnowledgeModel;
@@ -25,7 +28,8 @@ public class HttpLikeHealthRequest extends Thread {
 	private int which;
 	
 	private final int getKnowledge = 1;
-	private final int getVideo = 2;
+	
+	private String types = null;
 	
 	public HttpLikeHealthRequest(){
 	}
@@ -36,15 +40,26 @@ public class HttpLikeHealthRequest extends Thread {
 		this.which = which;
 	}
 	
+	public void getKnowledgeInit( String types ) {
+		this.types = types;
+	}
+	
 	//获取健康知识
 	public void getKnowledgeRequest() {
+		HttpParams params = new HttpParams();
+		try {
+			params.put("types", URLEncoder.encode(types, "utf-8"));
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		
 		HttpConfig config = new HttpConfig();
 		config.cacheTime=0;
 		config.maxRetries = 10;// 出错重连次数
 		KJHttp kjh = new KJHttp(config);
 		String url = context.getString(R.string.localhost).concat(
-				"/likeHealth/getKnowledge");
-		kjh.get(url, new HttpCallBack() {
+				"/appMemberShoppe/getKnowledge");
+		kjh.get(url, params, new HttpCallBack() {
 			@Override
 			public void onFinish() {
 				super.onFinish();
@@ -55,20 +70,32 @@ public class HttpLikeHealthRequest extends Thread {
 				super.onSuccess(t);
 				try {
 					JSONObject mJsonObject = new JSONObject(t);
-					JSONArray shopcommodities = mJsonObject.getJSONArray("shopcommodities");
+					JSONArray knowledges = mJsonObject.getJSONArray("list");
 
 					ArrayList<KnowledgeModel> list = new ArrayList<KnowledgeModel>();
 					KnowledgeModel item = null;
-
-					for (int i = 0; i < shopcommodities.length(); i++) {
-						JSONObject itemObject = shopcommodities
-								.getJSONObject(i);
-						int commCode = itemObject.getInt("commCode");
-						String imagePath = itemObject.getString("shopCommImage");
-						float special = (float) itemObject.getDouble("special");
+					for (int i = 0; i < knowledges.length(); i++) {
+						JSONObject itemObject = knowledges.getJSONObject(i);
+						int knowledgeID = itemObject.getInt("knowledgeID");
+						String content = itemObject.getString("content");
+						String title = itemObject.getString("title");
+						String videoUrlPath = itemObject.getString("videoUrlPath");
+						String imagePath1 = itemObject.getString("imagePath1");
+						String imagePath2 = itemObject.getString("imagePath2");
+						String imagePath3 = itemObject.getString("imagePath3");
+						String imagePath4 = itemObject.getString("imagePath4");
+						String knowledgeType = itemObject.getString("knowledgeType");
 						
 						item = new KnowledgeModel();
-
+						item.setKnowledgeID(knowledgeID);
+						item.setContent(content);
+						item.setTitle(title);
+						item.setVideoUrlPath(videoUrlPath);
+						item.setImagePath1(imagePath1);
+						item.setImagePath2(imagePath2);
+						item.setImagePath3(imagePath3);
+						item.setImagePath4(imagePath4);
+						item.setKnowledgeType(knowledgeType);
 						list.add(item);
 					}
 					
@@ -89,58 +116,6 @@ public class HttpLikeHealthRequest extends Thread {
 		});
 	}
 	
-	//获取健康视频
-	public void getVideoRequest() {
-		HttpConfig config = new HttpConfig();
-		config.cacheTime=0;
-		config.maxRetries = 10;// 出错重连次数
-		KJHttp kjh = new KJHttp(config);
-		String url = context.getString(R.string.localhost).concat(
-				"/likeHealth/getKnowledge");
-		kjh.get(url, new HttpCallBack() {
-			@Override
-			public void onFinish() {
-				super.onFinish();
-			}
-
-			@Override
-			public void onSuccess(String t) {
-				super.onSuccess(t);
-				try {
-					JSONObject mJsonObject = new JSONObject(t);
-					JSONArray shopcommodities = mJsonObject.getJSONArray("shopcommodities");
-
-					ArrayList<KnowledgeModel> list = new ArrayList<KnowledgeModel>();
-					KnowledgeModel item = null;
-
-					for (int i = 0; i < shopcommodities.length(); i++) {
-						JSONObject itemObject = shopcommodities
-								.getJSONObject(i);
-						int commCode = itemObject.getInt("commCode");
-						String imagePath = itemObject.getString("shopCommImage");
-						float special = (float) itemObject.getDouble("special");
-						
-						item = new KnowledgeModel();
-
-						list.add(item);
-					}
-					
-					Message msg = new Message();
-					msg.what = 2;
-					msg.obj = list;
-					mHandler.sendMessage(msg);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-
-			@SuppressLint("InlinedApi")
-			@Override
-			public void onFailure(Throwable t, int errorNo, String strMsg) {
-				super.onFailure(t, errorNo, strMsg);
-			}
-		});
-	}
 	
 	@Override
 	public void run() {
@@ -149,8 +124,7 @@ public class HttpLikeHealthRequest extends Thread {
 		Looper.prepare();
 		switch(which) {
 		case getKnowledge:
-			break;
-		case getVideo:
+			this.getKnowledgeRequest(); 
 			break;
 		}
 		Looper.loop();

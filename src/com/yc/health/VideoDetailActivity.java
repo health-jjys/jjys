@@ -3,36 +3,41 @@ package com.yc.health;
 import org.kymjs.kjframe.KJActivity;
 import org.kymjs.kjframe.ui.BindView;
 
+import android.annotation.SuppressLint;
+import android.content.pm.ActivityInfo;
+import android.graphics.Paint;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebSettings.PluginState;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.MediaController;
+import android.widget.PopupWindow.OnDismissListener;
+import android.widget.TextView;
+
 import com.yc.health.adapter.LikeHealthGridViewAdapter;
 import com.yc.health.fragment.PersonalPopupWindow;
 import com.yc.health.manager.ActivityManager;
+import com.yc.health.util.Logutil;
+import com.yc.health.util.MediaUtils;
 import com.yc.health.util.Method;
 import com.yc.health.widget.GridCommodity;
-
-import android.content.Intent;
-import android.graphics.Paint;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
-import android.net.Uri;
-import android.os.Environment;
-import android.view.GestureDetector;
-import android.view.Gravity;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.GestureDetector.OnGestureListener;
-import android.view.View.OnTouchListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.MediaController;
-import android.widget.PopupWindow.OnDismissListener;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.VideoView;
 
 public class VideoDetailActivity extends KJActivity implements OnGestureListener{
 
 	@BindView(id = R.id.likehealth_video_video, click = true)
-	private VideoView video;
+	private WebView video;
 	@BindView(id = R.id.likehealth_video_videoDes)
 	private TextView videoDesTitle;
 	@BindView(id = R.id.likehealth_video_aboutrecommend)
@@ -43,10 +48,14 @@ public class VideoDetailActivity extends KJActivity implements OnGestureListener
 	private TextView videoDes;
 	@BindView(id = R.id.likehealth_videos, click = true)
 	private GridCommodity videoGrid;
-	
+	@BindView(id=R.id.fullscreen_custom_content)
+	private FrameLayout mFullscreenContainer;
+	@BindView(id=R.id.main_content)
+	private FrameLayout mContentView;
+	private View mCustomView = null;
 	private LikeHealthGridViewAdapter knowledgeAdapter = null;
 	
-	private Uri mUri;
+	public static String sVideUrl="http://119.84.113.52/youku/6979BEF0C0033811AF3DAB219A/030020010050EDBC306F0301F08E91FB255289-9309-AF28-DEDC-BCE417B9FE2D.mp4";
 	private int mPositionWhenPaused = -1;
 
 	private int windowsWidth = 0;
@@ -58,8 +67,29 @@ public class VideoDetailActivity extends KJActivity implements OnGestureListener
 	@Override
 	public void setRootView() {
 		setContentView(R.layout.likehealth_video);
+		Logutil.Log("进入竖屏");
+	}
+	/**
+	 * 设置全屏
+	 */
+	private void setFullScreen() {
+		// 设置全屏的相关属性，获取当前的屏幕状态，然后设置全屏
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		// 全屏下的状态码：1098974464
+		// 窗口下的状态吗：1098973440
 	}
 
+	/**
+	 * 退出全屏
+	 */
+	private void quitFullScreen() {
+		// 声明当前屏幕状态的参数并获取
+		final WindowManager.LayoutParams attrs = getWindow().getAttributes();
+		attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().setAttributes(attrs);
+		getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+	}
 	@SuppressWarnings("deprecation")
 	@Override
 	public void initData() {
@@ -71,55 +101,103 @@ public class VideoDetailActivity extends KJActivity implements OnGestureListener
 		
 		windowsWidth = this.getWindowManager().getDefaultDisplay().getWidth();
 	}
+	public static int getPhoneAndroidSDK() {
+		// TODO Auto-generated method stub
+		int version = 0;
+		try {
+			version = Integer.valueOf(android.os.Build.VERSION.SDK);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		return version;
 
+	}
+	class MyWebViewClient extends WebViewClient {
+
+		@Override
+		public boolean shouldOverrideUrlLoading(WebView view, String url) {
+			// TODO Auto-generated method stub
+			view.loadUrl(url);
+			return super.shouldOverrideUrlLoading(view, url);
+		}
+
+	}
+	class MyWebChromeClient extends WebChromeClient {
+
+		private CustomViewCallback mCustomViewCallback;
+
+		@Override
+		public void onShowCustomView(View view, CustomViewCallback callback) {
+			// TODO Auto-generated method stub
+			onShowCustomView(view, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE, callback);
+			super.onShowCustomView(view, callback);
+			
+		}
+		@Override
+		public void onShowCustomView(View view, int requestedOrientation,
+				WebChromeClient.CustomViewCallback callback) {
+			MediaUtils.sVideoPath=sVideUrl;
+			VideoDetailActivity.this.showActivity(aty, VideoPlayer.class);
+			return;
+//			if (mCustomView != null) {
+//				callback.onCustomViewHidden();
+//				return;
+//			}
+//			mFullscreenContainer.addView(view);
+//			mCustomView = view;
+//			mCustomViewCallback = callback;
+//			mContentView.setVisibility(View.INVISIBLE);
+//			mFullscreenContainer.setVisibility(View.VISIBLE);
+//			mFullscreenContainer.bringToFront();
+//			setFullScreen();
+		}
+		@Override
+		public void onHideCustomView() {
+			mContentView.setVisibility(View.VISIBLE);
+			if (mCustomView == null) {
+				return;
+			}
+//			quitFullScreen();
+//			mCustomView.setVisibility(View.GONE);
+//			mFullscreenContainer.removeView(mCustomView);
+//			mCustomView = null;
+//			mFullscreenContainer.setVisibility(View.GONE);
+//			try {
+//				mCustomViewCallback.onCustomViewHidden();
+//			} catch (Exception e) {
+//			}
+			// Show the content view.
+			//setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
+
+	}
+	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	@Override
 	public void initWidget() {
 		super.initWidget();
-		
 		gestureDetector = new GestureDetector(this); // 手势滑动
-		
-		mUri = Uri.parse(Environment.getExternalStorageDirectory() + "/3.mp4");
         mMediaController = new MediaController(this);
-        mMediaController.setVisibility(View.VISIBLE);
-        video = (VideoView) this.findViewById(R.id.likehealth_video_video);
-        video.setMediaController(mMediaController);
-        mMediaController.setAnchorView(video);
-        video.setBackgroundResource(R.color.transparent);
-		video.setVideoURI(mUri);
-        video.start();
-        video.setOnTouchListener(new OnTouchListener(){
-			@Override
-			public boolean onTouch(View arg0, MotionEvent ev) {
-				if ( ev.getY() > 100 ) {
-//					video.setBackgroundResource(R.color.transparent);
-//					video.setVideoURI(mUri);
-//			        video.start();
-					return true;
-				} else if ( ev.getY() < 100 ){
-					if ( ev.getX() < 100 ) {
-						VideoDetailActivity.this.finish();
-					} else if ( ev.getX() > windowsWidth - 100 ) {
-						Intent shareInt=new Intent(Intent.ACTION_SEND);
-						shareInt.setType("text/plain");   
-						shareInt.putExtra(Intent.EXTRA_SUBJECT, "分享");   
-						shareInt.putExtra(Intent.EXTRA_TEXT, "快下载郡健养生吧，带给你健康的人生~~");    
-						shareInt.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
-						startActivity(shareInt);
-					}
-					return false;
-				}
-				return false;
-			}
-        });
-        
-        video.setOnCompletionListener(new OnCompletionListener(){
-			@Override
-			public void onCompletion(MediaPlayer arg0) {
-				video.setBackgroundResource(R.drawable.knowledge_title);
-			}
-        });
+        WebSettings settings = video.getSettings();
+		settings.setJavaScriptEnabled(true);
+		settings.setCacheMode(settings.LOAD_NO_CACHE);//禁用缓存
+		settings.setJavaScriptCanOpenWindowsAutomatically(true);
+		settings.setPluginState(PluginState.ON);
+		// settings.setPluginsEnabled(true);
+		settings.setAllowFileAccess(true);
+		settings.setLoadWithOverviewMode(true);
+		video.setWebChromeClient(new MyWebChromeClient());
+		video.setWebViewClient(new MyWebViewClient());
+		if (getPhoneAndroidSDK() >= 14) {// 4.0 需打开硬件加速
+			video.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			getWindow().setFlags(0x1000000, 0x1000000);
+		}
 		
+        String Html = "<html><head><link href='http://vjs.zencdn.net/4.12/video-js.css' rel='stylesheet'><script src='http://vjs.zencdn.net/4.12/video.js'></script><title>H5VideoTest</title></head><body><video src='AAA' autoplay='true' width='100%' height='90%' controls='true' poster='BBB' >当前浏览器不支持H5Video</video></body></html>"
+        		.replace("AAA", sVideUrl);
+        Logutil.Log(Html);
+		video.loadDataWithBaseURL("file:///", Html, "text/html", "UTF8", null);
+	
 		//为文本画下划线
 		videoDesTitle.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 		videoDesTitle.getPaint().setAntiAlias(true);
@@ -136,30 +214,48 @@ public class VideoDetailActivity extends KJActivity implements OnGestureListener
 					long arg3) {
 				//播放不同的视频
 			}
-		});
+		});		
 	}
 
 	@Override
 	public void widgetClick(View v) {
 		super.widgetClick(v);
+		Logutil.Log("vC="+v.getId());
+		switch (v.getId()) {
+		case R.id.likehealth_video_back:
+			finish();
+			break;
+
+		default:
+			break;
+		}
 	}
 	
 	@Override
 	protected void onPause() {
-		mPositionWhenPaused = video.getCurrentPosition();
-		video.stopPlayback();
+		video.onPause();
 		super.onPause();
 	}
 
 	@Override
 	protected void onResume() {
-		if(mPositionWhenPaused >= 0) {
-			video.seekTo(mPositionWhenPaused);
-	       mPositionWhenPaused = -1;
-	    }
+		video.onResume();
 		super.onResume();
+		
 	}
-	
+
+	@SuppressLint("NewApi")
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		video.loadUrl("about:black");
+		if (getPhoneAndroidSDK() >= 14) {// 4.0 需打开硬件加速
+			video.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
+		}
+		super.onDestroy();
+		
+		
+	}
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		return gestureDetector.onTouchEvent(event);
@@ -198,6 +294,18 @@ public class VideoDetailActivity extends KJActivity implements OnGestureListener
 		return true;
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+//		if (KeyEvent.KEYCODE_BACK==keyCode) {
+//			if (getRequestedOrientation()==ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+//				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//				return true;
+//			}
+//			return super.onKeyDown(keyCode, event); 
+//		}
+		return super.onKeyDown(keyCode, event);
+	}
 	@Override
 	public void onLongPress(MotionEvent arg0) {
 	}

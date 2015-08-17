@@ -51,6 +51,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
 
     <application
         android:allowBackup="true"
@@ -144,9 +145,12 @@
             android:name="com.yc.health.ConstitutionRecommendActivity"
             android:label="@string/title_activity_test_result" >
         </activity>
-        <activity android:name="com.yc.health.VideoDetailActivity" >
+        <activity android:name="com.yc.health.VideoDetailActivity"
+            android:screenOrientation="portrait" >
         </activity>
-
+		<activity android:name="com.yc.health.VideoPlayer"
+            android:screenOrientation="landscape">"
+        </activity>
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="55c1e70967e58e2938000e3a" />
