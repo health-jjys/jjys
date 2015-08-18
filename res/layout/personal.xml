@@ -80,7 +80,7 @@
 			        android:layout_height="wrap_content"
 			        android:layout_marginTop="5dp"
 			        android:drawableLeft="@drawable/btn_dw_nor"
-			        android:text="当前位置"
+			        android:text="正在获取当前位置"
 			        android:textColor="@color/light"
 			        android:textSize="@dimen/second_title"/>
 	        </RelativeLayout>

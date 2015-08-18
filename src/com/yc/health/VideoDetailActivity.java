@@ -55,7 +55,7 @@ public class VideoDetailActivity extends KJActivity implements OnGestureListener
 	private View mCustomView = null;
 	private LikeHealthGridViewAdapter knowledgeAdapter = null;
 	
-	public static String sVideUrl="http://119.84.113.52/youku/6979BEF0C0033811AF3DAB219A/030020010050EDBC306F0301F08E91FB255289-9309-AF28-DEDC-BCE417B9FE2D.mp4";
+	public static String sVideUrl="http://movie.ks.js.cn/flv/other/2014/06/20-2.mp4";
 	private int mPositionWhenPaused = -1;
 
 	private int windowsWidth = 0;

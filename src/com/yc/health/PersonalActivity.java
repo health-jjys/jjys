@@ -93,18 +93,20 @@ public class PersonalActivity extends KJActivity implements OnGestureListener,AM
 		// 其中如果间隔时间为-1，则定位只定一次,
 		//在单次定位情况下，定位无论成功与否，都无需调用removeUpdates()方法移除请求，定位sdk内部会移除
 		mLocationManagerProxy.requestLocationData(
-				LocationProviderProxy.AMapNetwork, 60*1000, -1, this);
+				LocationProviderProxy.AMapNetwork, 6*1000, 100, this);
 		Logutil.Log("StartLocMgr");
 		mHandler.postDelayed(getloc, 1000);
 	}
 	Runnable getloc= new Runnable() {
 		public void run() {
 			Logutil.Log("getloc once");
+			locationText.setText("正在获取当前位置");
 			mLocationManagerProxy.removeUpdates(PersonalActivity.this);
 			int randomTime=mRandom.nextInt(1000);
-			mLocationManagerProxy.requestLocationData(
-					LocationProviderProxy.AMapNetwork, 60*1000+randomTime, -1, PersonalActivity.this);
 			mLocationManagerProxy.setGpsEnable(false);
+			mLocationManagerProxy.requestLocationData(
+					LocationProviderProxy.AMapNetwork, 6*1000, 100, PersonalActivity.this);
+			
 		}
 	};
 	@Override
@@ -135,6 +137,13 @@ public class PersonalActivity extends KJActivity implements OnGestureListener,AM
 		request.start();
 	}
 	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		mLocationManagerProxy.destroy();
+	}
+
 	private void init() {
 		textList.add("个人信息");
 		textList.add("我的家人");
