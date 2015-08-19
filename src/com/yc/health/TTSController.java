@@ -22,7 +22,6 @@ public class TTSController implements SynthesizerListener, AMapNaviListener {
 
 	public static TTSController ttsManager;
 	private Context mContext;
-	// 合成对象.
 	private SpeechSynthesizer mSpeechSynthesizer;
 
 	TTSController(Context context) {
