@@ -89,7 +89,7 @@ public class VideoDetailActivity extends KJActivity implements OnGestureListener
 		super.initWidget();
 		
 		gestureDetector = new GestureDetector(this); // 手势滑动
-		sVideoUrl="http://116.10.191.134/youku/697A4E60D7B46748AC074412E/030020010050DF84356AA7061F947EC1C020E4-7C9A-B271-EF98-3264290EED86.mp4";
+		//sVideoUrl="http://116.10.191.134/youku/697A4E60D7B46748AC074412E/030020010050DF84356AA7061F947EC1C020E4-7C9A-B271-EF98-3264290EED86.mp4";
         mMediaController = new com.yc.health.widget.mMediaController(this);
         vve=new videoviewExt(this);
         likehealth_video_parent.addView(vve, -1, -1);
