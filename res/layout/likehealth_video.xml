@@ -2,15 +2,7 @@
     android:id="@+id/likehealth_video"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-     <FrameLayout  
-       android:id="@+id/fullscreen_custom_content"  
-       android:layout_width="match_parent"  
-       android:layout_height="match_parent"  
-       android:visibility="gone" /> 
-       <FrameLayout  
-       android:id="@+id/main_content"  
-       android:layout_width="match_parent"  
-       android:layout_height="match_parent">   
+    
     <ImageView 
 	    android:layout_width="match_parent"
 	  	android:layout_height="match_parent"
@@ -20,14 +12,30 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
 	    android:orientation="vertical">
-	    
-	    <WebView
-	        android:id="@+id/likehealth_video_video"
+	    <RelativeLayout
+	        android:id="@+id/likehealth_video_parent"
 	        android:layout_width="match_parent"
 	        android:layout_gravity="center_horizontal"
-	        android:layout_height="200dp"
-	        android:background="@drawable/knowledge_title" />
-	    
+	        android:layout_height="200dp">
+
+	        <Button
+	            android:id="@+id/btnFullScreen"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginTop="0dp"
+		    	android:layout_marginLeft="250dp"
+		    	android:layout_marginRight="1dp"
+	            android:text="全屏" />
+	         <Button
+	            android:id="@+id/btnShare"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginTop="0dp"
+		    	android:layout_marginLeft="10dp"
+		    	android:layout_marginRight="0dp"
+	            android:text="分享" />
+
+	    </RelativeLayout>
 	    <RelativeLayout
 	        android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
@@ -140,5 +148,4 @@
 	        android:clickable="true"
 	        android:src="@drawable/btn_back_nor"/>
     </RelativeLayout>
-    </FrameLayout > 
 </FrameLayout>
