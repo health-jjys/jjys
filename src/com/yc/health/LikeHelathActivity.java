@@ -111,14 +111,14 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 		case R.id.likehealth_back:
 			this.finish();
 			break;
-		case R.id.likehealth_video_video:
-			Intent intent=new Intent(); 
-			intent.setAction(Intent.ACTION_VIEW);
-			Uri data=Uri.parse(Environment.getExternalStorageDirectory()+"/VIDEO0001.mp4");
-			//Uri data=Uri.parse("http://www.letv.com/ptv/vplay/23198678.html");
-			intent.setDataAndType(data, "video/*");	
-			startActivity(intent);
-			break;
+//		case R.id.likehealth_video_video:
+//			Intent intent=new Intent(); 
+//			intent.setAction(Intent.ACTION_VIEW);
+//			Uri data=Uri.parse(Environment.getExternalStorageDirectory()+"/VIDEO0001.mp4");
+//			//Uri data=Uri.parse("http://www.letv.com/ptv/vplay/23198678.html");
+//			intent.setDataAndType(data, "video/*");	
+//			startActivity(intent);
+//			break;
 		case R.id.likehealth_knowledge_btn:
 			if ( curBtn != 1) {
 				curBtn = 1;

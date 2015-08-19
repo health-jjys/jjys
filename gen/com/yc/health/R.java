@@ -305,6 +305,8 @@ public final class R {
     }
     public static final class id {
         public static final int action_settings=0x7f0b0124;
+        public static final int btnFullScreen=0x7f0b0066;
+        public static final int btnShare=0x7f0b0067;
         public static final int btnreturn=0x7f0b0025;
         public static final int car_navi_emulator=0x7f0b0027;
         public static final int car_navi_navi=0x7f0b0028;
@@ -364,7 +366,6 @@ public final class R {
         public static final int foot_navi_navi=0x7f0b002b;
         public static final int foot_navi_route=0x7f0b0029;
         public static final int fullscreen=0x7f0b0123;
-        public static final int fullscreen_custom_content=0x7f0b0065;
         public static final int header=0x7f0b00ed;
         public static final int home=0x7f0b0035;
         public static final int home_ajk=0x7f0b003b;
@@ -420,8 +421,8 @@ public final class R {
         public static final int likehealth_video_collectbtn=0x7f0b006a;
         public static final int likehealth_video_collecttext=0x7f0b0069;
         public static final int likehealth_video_desc=0x7f0b006b;
+        public static final int likehealth_video_parent=0x7f0b0065;
         public static final int likehealth_video_share3=0x7f0b006f;
-        public static final int likehealth_video_video=0x7f0b0067;
         public static final int likehealth_video_videoDes=0x7f0b0068;
         public static final int likehealth_videos=0x7f0b006d;
         public static final int listView=0x7f0b00df;
@@ -432,7 +433,6 @@ public final class R {
         public static final int login_login=0x7f0b0071;
         public static final int login_loginName=0x7f0b0072;
         public static final int login_password=0x7f0b0073;
-        public static final int main_content=0x7f0b0066;
         public static final int map_container=0x7f0b0003;
         public static final int mediacontroller_progress=0x7f0b0121;
         public static final int menu_cancle=0x7f0b0126;
