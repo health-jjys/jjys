@@ -98,8 +98,6 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 	public void initWidget() {
 		super.initWidget();
 		
-		gestureDetector = new GestureDetector(this); // 手势滑动
-		
 		// 分类下的彩色条
 		gestureDetector = new GestureDetector(this); // 手势滑动
 		windowsWidth = this.getWindowManager().getDefaultDisplay().getWidth();
@@ -156,7 +154,11 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 					knowledgeBtn.setTextColor(this.getResources().getColor(R.color.ajk));
 					videoBtn.setTextColor(this.getResources().getColor(R.color.ajk_selected));
 				} 
+				
 				adapter.setType("richText");
+				HttpLikeHealthRequest request = new HttpLikeHealthRequest(aty,mHandler,1);
+				request.getKnowledgeInit("richText");
+				request.start();
 			}
 			break;
 		case R.id.likehealth_video_btn:
@@ -172,6 +174,9 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 					videoBtn.setTextColor(this.getResources().getColor(R.color.ajk_selected));
 				}
 				adapter.setType("video");
+				HttpLikeHealthRequest request = new HttpLikeHealthRequest(aty,mHandler,1);
+				request.getKnowledgeInit("video");
+				request.start();
 			}
 			break;
 		}
@@ -234,6 +239,9 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 					videoBtn.setTextColor(this.getResources().getColor(R.color.ajk_selected));
 				}
 				adapter.setType("richText");
+				HttpLikeHealthRequest request = new HttpLikeHealthRequest(aty,mHandler,1);
+				request.getKnowledgeInit("richText");
+				request.start();
 			}
 		} else if ( (e2.getX() - e1.getX()) < -120 && Math.abs(e2.getY() - e1.getY()) < 50 ) {
 			if ( curBtn != 2) {
@@ -247,6 +255,9 @@ public class LikeHelathActivity extends KJActivity implements OnGestureListener{
 					videoBtn.setTextColor(this.getResources().getColor(R.color.ajk_selected));
 				}
 				adapter.setType("video");
+				HttpLikeHealthRequest request = new HttpLikeHealthRequest(aty,mHandler,1);
+				request.getKnowledgeInit("video");
+				request.start();
 			}
 		} else if ( (e2.getX() - e1.getX()) > 50 && Math.abs(e2.getY() - e1.getY()) < 120 ) {
 			if ( menuWindow == null ) {

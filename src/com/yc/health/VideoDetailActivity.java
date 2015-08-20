@@ -1,5 +1,8 @@
 package com.yc.health;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ice.videoviewExt;
 
 import org.kymjs.kjframe.KJActivity;
@@ -7,17 +10,24 @@ import org.kymjs.kjframe.ui.BindView;
 
 import com.yc.health.adapter.LikeHealthGridViewAdapter;
 import com.yc.health.fragment.PersonalPopupWindow;
+import com.yc.health.http.HttpLikeHealthRequest;
+import com.yc.health.http.HttpUserRequest2;
 import com.yc.health.manager.ActivityManager;
+import com.yc.health.model.KnowledgeModel;
 import com.yc.health.util.Logutil;
 import com.yc.health.util.MediaUtils;
 import com.yc.health.util.Method;
+import com.yc.health.widget.CustomToast;
 import com.yc.health.widget.GridCommodity;
 import com.yc.health.widget.mMediaController;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.GestureDetector;
@@ -36,8 +46,6 @@ import android.widget.TextView;
 
 public class VideoDetailActivity extends KJActivity implements OnGestureListener{
 
-//	@BindView(id = R.id.likehealth_video_video, click = true)
-//	private VideoView video;
 	@BindView(id=R.id.likehealth_video_parent)
 	private RelativeLayout likehealth_video_parent;
 	private videoviewExt vve;
@@ -55,22 +63,55 @@ public class VideoDetailActivity extends KJActivity implements OnGestureListener
 	private TextView videoDes;
 	@BindView(id = R.id.likehealth_videos, click = true)
 	private GridCommodity videoGrid;
-	private String sVideoUrl="http://movie.ks.js.cn/flv/other/2014/06/20-2.mp4";
-	private LikeHealthGridViewAdapter knowledgeAdapter = null;
 	
 	private int mPositionWhenPaused = -1;
-
 	private int windowsWidth = 0;
 	private mMediaController mMediaController;
+	
+	private String sVideoUrl=null;
+	private String content = null;
+	private int knowID = -1;
+	private boolean isCollected = false;
+	private int collectionID = -1;
+	
+	private SharedPreferences userPreferences;
+	private int userID = -1;
 	
 	private PersonalPopupWindow menuWindow = null;
 	private GestureDetector gestureDetector;
 	public static Handler mHandler=null;
+	
+	private List<KnowledgeModel> list = new ArrayList<KnowledgeModel>();
+	private LikeHealthGridViewAdapter adapter = null;
+	private Handler rceiveHandler = new Handler(){
+		@SuppressWarnings("unchecked")
+		@Override
+		public void handleMessage(Message msg) {
+			if ( msg.what == 1 ) {
+				list = (List<KnowledgeModel>) msg.obj;
+				adapter.setList(list);
+				adapter.notifyDataSetChanged();
+			} else if ( msg.what == 2 ) {
+				isCollected = true;
+				collectionID =  (Integer) msg.obj;
+				if ( isCollected ) {
+					collectBtn.setBackgroundResource(R.drawable.btn_sc_pre);
+				} else {
+					collectBtn.setBackgroundResource(R.drawable.btn_sc_nor);
+				}
+			} else if ( msg.what == 3) {
+				isCollected = false;
+			}
+			super.handleMessage(msg);
+		}
+	};
+	
 	@Override
 	public void setRootView() {
 		setContentView(R.layout.likehealth_video);
 	}
 
+	@SuppressLint("WorldReadableFiles") 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void initData() {
@@ -78,9 +119,24 @@ public class VideoDetailActivity extends KJActivity implements OnGestureListener
 		
 		ActivityManager.getInstace().addActivity(aty);
 		
-		knowledgeAdapter = new LikeHealthGridViewAdapter(aty);
-		
+		adapter = new LikeHealthGridViewAdapter(aty);
 		windowsWidth = this.getWindowManager().getDefaultDisplay().getWidth();
+		
+		Bundle bundle = this.getIntent().getExtras();
+		knowID = bundle.getInt("id");
+		sVideoUrl = bundle.getString("path");
+		content = bundle.getString("content");
+		
+		userPreferences = getSharedPreferences("user", MODE_WORLD_READABLE);
+		userID = userPreferences.getInt("userId", -1);
+		
+		HttpLikeHealthRequest request = new HttpLikeHealthRequest(aty,rceiveHandler,1);
+		request.getKnowledgeInit("video");
+		request.start();
+		
+		HttpUserRequest2 request2 = new HttpUserRequest2(aty,rceiveHandler,3);
+		request2.isCollectionInit(userID, knowID, "HealthKnowledge");
+		request2.start();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -89,7 +145,9 @@ public class VideoDetailActivity extends KJActivity implements OnGestureListener
 		super.initWidget();
 		
 		gestureDetector = new GestureDetector(this); // 手势滑动
-		sVideoUrl="http://116.10.191.134/youku/697A4E60D7B46748AC074412E/030020010050DF84356AA7061F947EC1C020E4-7C9A-B271-EF98-3264290EED86.mp4";
+		
+		videoDes.setText(content);
+		
         mMediaController = new com.yc.health.widget.mMediaController(this);
         vve=new videoviewExt(this);
         likehealth_video_parent.addView(vve, -1, -1);
@@ -122,7 +180,7 @@ public class VideoDetailActivity extends KJActivity implements OnGestureListener
 		MediaUtils.mHandler=mHandler;
 	    mHandler.sendEmptyMessage(0);
 	    
-        vve.setOnTouchListener(new OnTouchListener(){
+	    likehealth_video_parent.setOnTouchListener(new OnTouchListener(){
 			@Override
 			public boolean onTouch(View arg0, MotionEvent ev) {
 				 if ( ev.getY() < 100 ){
@@ -158,12 +216,17 @@ public class VideoDetailActivity extends KJActivity implements OnGestureListener
 		
 		//健康视频推荐
 		videoGrid = (GridCommodity) this.findViewById(R.id.likehealth_videos);
-		videoGrid.setAdapter(knowledgeAdapter);
+		videoGrid.setAdapter(adapter);
 		videoGrid.setOnItemClickListener(new OnItemClickListener(){
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
 				//播放不同的视频
+				Bundle bundle = new Bundle();
+				bundle.putInt("id", list.get(position).getKnowledgeID());
+				bundle.putString("content", list.get(position).getContent());
+				bundle.putString("path", list.get(position).getVideoUrlPath());
+				VideoDetailActivity.this.showActivity(aty, VideoDetailActivity.class,bundle);
 			}
 		});
 	}
@@ -179,6 +242,22 @@ public class VideoDetailActivity extends KJActivity implements OnGestureListener
 			MediaUtils.sVideoPath=sVideoUrl;
 			this.showActivity(aty, VideoPlayer.class);
 			break;
+		case R.id.likehealth_video_collectbtn:
+			if ( userID == -1 ) {
+				Method method = new Method(aty);
+				method.loginHint();
+			} else {
+				if ( isCollected ) {
+					isCollected = false;
+					collectBtn.setBackgroundResource(R.drawable.btn_sc_nor);
+					CustomToast.showToast(aty, "已经移出收藏了哦！", 6000);
+				} else {
+					isCollected = true;
+					collectBtn.setBackgroundResource(R.drawable.btn_sc_pre);
+					CustomToast.showToast(aty, "已经加入收藏了哦！", 6000);
+				}
+			}
+			break;
 		default:
 			break;
 		}
@@ -189,6 +268,18 @@ public class VideoDetailActivity extends KJActivity implements OnGestureListener
 	protected void onPause() {
 		mPositionWhenPaused = vve.getCurrentPosition();
 		vve.stopPlayback();
+		
+		if ( isCollected ) {
+			HttpUserRequest2 request = new HttpUserRequest2(aty,rceiveHandler,1);
+			request.addCollectionInit(userID, knowID, "HealthKnowledge");
+			request.start();
+		} else {
+			if ( collectionID != -1 ) {
+				HttpUserRequest2 request = new HttpUserRequest2(aty,rceiveHandler,4);
+				request.deleteCollectionInit(collectionID);
+				request.start();
+			}
+		}
 		super.onPause();
 	}
 

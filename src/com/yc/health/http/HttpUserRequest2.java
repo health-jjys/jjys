@@ -95,7 +95,7 @@ public class HttpUserRequest2 extends Thread {
 			public void onSuccess(String t) {
 				super.onSuccess(t);
 				Message msg = new Message();
-				msg.what = 1;
+				msg.what = 4;
 				mHandler.sendMessage(msg);
 			}
 
@@ -200,9 +200,15 @@ public class HttpUserRequest2 extends Thread {
 				super.onSuccess(t);
 				try {
 					JSONObject flagObject = new JSONObject(t);
+					
 					Message msg = new Message();
-					msg.what = 1;
-					msg.obj = flagObject.getBoolean("isCollected");
+					boolean isCollected = flagObject.getBoolean("isCollected");
+					if ( isCollected ) {
+						msg.what = 2;
+						msg.obj = flagObject.getInt("collectionID");
+					} else {
+						msg.what = 3;
+					}
 					mHandler.sendMessage(msg);
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -238,7 +244,7 @@ public class HttpUserRequest2 extends Thread {
 			public void onSuccess(String t) {
 				super.onSuccess(t);
 				Message msg = new Message();
-				msg.what = 1;
+				msg.what = 5;
 				mHandler.sendMessage(msg);
 			}
 

@@ -8,12 +8,17 @@ import org.kymjs.kjframe.ui.BindView;
 
 import com.yc.health.adapter.MyPagerAdapter;
 import com.yc.health.fragment.PersonalPopupWindow;
+import com.yc.health.http.HttpUserRequest2;
 import com.yc.health.manager.ActivityManager;
 import com.yc.health.util.Method;
+import com.yc.health.widget.CustomToast;
 import com.zwq.view.effect.DepthPageTransformer;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.GestureDetector;
@@ -35,6 +40,8 @@ public class KnowledgeDetailActivity extends KJActivity implements OnGestureList
 	private ViewPager viewPager;
 	@BindView(id = R.id.knowledgedetail_backicon, click = true)
 	private ImageView backIcon;
+	@BindView(id = R.id.knowledgedetail_collectbtn, click = true)
+	private ImageView collectBtn;
 	@BindView(id = R.id.knowledgedetail_backtext, click = true)
 	private Button backText;
 	@BindView(id = R.id.knowledgedetail_page)
@@ -46,16 +53,42 @@ public class KnowledgeDetailActivity extends KJActivity implements OnGestureList
 	private List<View> listViews = null; //viewpager的所有view
 	private int currentPage = 0; //当前页面
 	
+	private int knowID = -1;
 	private String imagePath1 = null;
 	private String imagePath2 = null;
 	private String imagePath3 = null;
 	private String imagePath4 = null;
+	private boolean isCollected = false;
+	private int collectionID = -1;
+	
+	private SharedPreferences userPreferences;
+	private int userID = -1;
 
+	private Handler rceiveHandler = new Handler(){
+		@SuppressWarnings("unchecked")
+		@Override
+		public void handleMessage(Message msg) {
+			if ( msg.what == 2 ) {
+				isCollected = true;
+				collectionID =  (Integer) msg.obj;
+				if ( isCollected ) {
+					collectBtn.setBackgroundResource(R.drawable.btn_sc_pre);
+				} else {
+					collectBtn.setBackgroundResource(R.drawable.btn_sc_nor);
+				}
+			} else if ( msg.what == 3) {
+				isCollected = false;
+			}
+			super.handleMessage(msg);
+		}
+	};
 	@Override
 	public void setRootView() {
 		setContentView(R.layout.knowledge_detail);
 	}
 
+	@SuppressLint("WorldReadableFiles") 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void initData() {
 		super.initData();
@@ -70,10 +103,18 @@ public class KnowledgeDetailActivity extends KJActivity implements OnGestureList
 		listViews.add(mInflater.inflate(R.layout.knowledgedetail_viewpager, null));
 		
 		Bundle bundle = this.getIntent().getExtras();
+		knowID = bundle.getInt("id");
 		imagePath1 = bundle.getString("path1");
 		imagePath2 = bundle.getString("path2");
 		imagePath3 = bundle.getString("path3");
 		imagePath4 = bundle.getString("path4");
+		
+		userPreferences = getSharedPreferences("user", MODE_WORLD_READABLE);
+		userID = userPreferences.getInt("userId", -1);
+		
+		HttpUserRequest2 request2 = new HttpUserRequest2(aty,rceiveHandler,3);
+		request2.isCollectionInit(userID, knowID, "HealthKnowledge");
+		request2.start();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -137,8 +178,40 @@ public class KnowledgeDetailActivity extends KJActivity implements OnGestureList
 		case R.id.knowledgedetail_backicon:
 		case R.id.knowledgedetail_backtext:
 			this.finish();
+		case R.id.knowledgedetail_collectbtn:
+			if ( userID == -1 ) {
+				Method method = new Method(aty);
+				method.loginHint();
+			} else {
+				if ( isCollected ) {
+					isCollected = false;
+					collectBtn.setBackgroundResource(R.drawable.btn_sc_nor);
+					CustomToast.showToast(aty, "已经移出收藏了哦！", 6000);
+				} else {
+					isCollected = true;
+					collectBtn.setBackgroundResource(R.drawable.btn_sc_pre);
+					CustomToast.showToast(aty, "已经加入收藏了哦！", 6000);
+				}
+			}
 			break;
 		}
+	}
+	
+
+	@Override
+	protected void onPause() {
+		if ( isCollected ) {
+			HttpUserRequest2 request = new HttpUserRequest2(aty,rceiveHandler,1);
+			request.addCollectionInit(userID, knowID, "HealthKnowledge");
+			request.start();
+		} else {
+			if ( collectionID != -1 ) {
+				HttpUserRequest2 request = new HttpUserRequest2(aty,rceiveHandler,4);
+				request.deleteCollectionInit(collectionID);
+				request.start();
+			}
+		}
+		super.onPause();
 	}
 
 	@Override

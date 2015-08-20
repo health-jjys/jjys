@@ -70,8 +70,7 @@
 		        android:layout_height="wrap_content"
 		        android:layout_marginRight="10dp"
 		        android:layout_centerVertical="true"
-		        android:src="@drawable/btn_sc_nor"
-		        android:background="@color/transparent"/>
+		        android:background="@drawable/btn_sc_nor"/>
 	    </RelativeLayout>
 	    
 	    <TextView

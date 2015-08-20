@@ -37,7 +37,7 @@ public class HttpUserRequest extends Thread {
 	private final int getUser = 6;
 	private final int updateUserInfo = 7;
 	
-	private int userId = -1;
+	private int userID = -1;
 	private String loginName = null;
 	private String password = null;
 	private String memberName = null;
@@ -59,35 +59,35 @@ public class HttpUserRequest extends Thread {
 		this.password = password;
 	}
 	
-	public void addMemberInit( int userId, String memberName, String memberConstitution ) {
-		this.userId = userId;
+	public void addMemberInit( int userID, String memberName, String memberConstitution ) {
+		this.userID = userID;
 		this.memberConstitution = memberConstitution;
 		this.memberName = memberName;
 	}
 	
-	public void getMembersInit( int userId ) {
-		this.userId = userId;
+	public void getMembersInit( int userID ) {
+		this.userID = userID;
 	}
 	
 	public void deleteMemberInit( int memberId ) {
 		this.memberId = memberId;
 	}
 	
-	public void saveUserInfoInit( int userId, String userName, String sex, 
+	public void saveUserInfoInit( int userID, String userName, String sex, 
 			String constitution ) {
-		this.userId = userId;
+		this.userID = userID;
 		this.memberName = userName;
 		this.sex = sex;
 		this.memberConstitution = constitution;
 	}
 	
-	public void getUserInit( int userId ) {
-		this.userId = userId;
+	public void getUserInit( int userID ) {
+		this.userID = userID;
 	}
 	
-	public void updateUserInfoInit( Integer userId, String userName ){
+	public void updateUserInfoInit( Integer userID, String userName ){
 		this.memberName = userName;
-		this.userId = userId;
+		this.userID = userID;
 	}
 	
 	//用户登录判断
@@ -161,7 +161,7 @@ public class HttpUserRequest extends Thread {
 	public void addMemberRequest() {
 		HttpParams params = new HttpParams();
 		try {
-			params.put("userId", ""+userId);
+			params.put("userID", ""+userID);
 			params.put("memberName", URLEncoder.encode(memberName, "utf-8"));
 			params.put("memberConstitution", URLEncoder.encode(memberConstitution, "utf-8"));
 		} catch (UnsupportedEncodingException e) {
@@ -199,7 +199,7 @@ public class HttpUserRequest extends Thread {
 	//获得所有家庭成员
 	public void getMembersRequest() {
 		HttpParams params = new HttpParams();
-		params.put("userId", ""+userId);
+		params.put("userID", ""+userID);
 
 		HttpConfig config = new HttpConfig();
 		config.cacheTime=0;
@@ -291,7 +291,7 @@ public class HttpUserRequest extends Thread {
 	public void saveUserRequest() {
 		HttpParams params = new HttpParams();
 		try {
-			params.put("userId", ""+userId);
+			params.put("userID", ""+userID);
 			params.put("userName", URLEncoder.encode(memberName, "utf-8"));
 			params.put("constitution", URLEncoder.encode(memberConstitution, "utf-8"));
 			params.put("sex", URLEncoder.encode(sex, "utf-8"));
@@ -330,10 +330,10 @@ public class HttpUserRequest extends Thread {
 	//获得当前登录用户
 	public void getUserRequest() {
 		HttpParams params = new HttpParams();
-		if ( userId == -1 ) {
+		if ( userID == -1 ) {
 			return;
 		}
-		params.put("userId", ""+userId);
+		params.put("userID", ""+userID);
 
 		HttpConfig config = new HttpConfig();
 		config.cacheTime=0;
@@ -391,7 +391,7 @@ public class HttpUserRequest extends Thread {
 	public void updateUserRequest() {
 		HttpParams params = new HttpParams();
 		try {
-			params.put("userId", ""+userId);
+			params.put("userID", ""+userID);
 			params.put("userName", URLEncoder.encode(memberName, "utf-8"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();

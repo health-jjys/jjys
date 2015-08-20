@@ -1,7 +1,6 @@
 package com.yc.health;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import org.kymjs.kjframe.KJActivity;
 import org.kymjs.kjframe.ui.BindView;
@@ -54,7 +53,6 @@ public class PersonalActivity extends KJActivity implements OnGestureListener,AM
 	private ImageView qrCodeBtn;
 	@BindView(id = R.id.my_info, click = true)
 	private ListView myList;
-	private Random mRandom=new Random();
 	private ArrayList<String> textList = null;
 	private ArrayList<Integer> icons = null;
 	private MyListAdapter adapter = null;
@@ -106,7 +104,6 @@ public class PersonalActivity extends KJActivity implements OnGestureListener,AM
 			Logutil.Log("getloc once");
 			locationText.setText("正在获取当前位置");
 			mLocationManagerProxy.removeUpdates(PersonalActivity.this);
-			int randomTime=mRandom.nextInt(1000);
 			mLocationManagerProxy.setGpsEnable(false);
 			mLocationManagerProxy.requestLocationData(
 					LocationProviderProxy.AMapNetwork, 6*1000, 100, PersonalActivity.this);
@@ -139,7 +136,6 @@ public class PersonalActivity extends KJActivity implements OnGestureListener,AM
 	
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		mLocationManagerProxy.destroy();
 	}

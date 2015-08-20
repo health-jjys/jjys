@@ -98,6 +98,7 @@ public class LikeHealthGridViewAdapter extends BaseAdapter {
 					if ( 30 > Math.abs(e.getX()-x) && 30 > Math.abs(e.getY()-y) ) {
 						if ( "richText".equals(type) ) {
 							Bundle bundle = new Bundle();
+							bundle.putInt("id", list.get(position).getKnowledgeID());
 							bundle.putString("path1", list.get(position).getImagePath1());
 							bundle.putString("path2", list.get(position).getImagePath2());
 							bundle.putString("path3", list.get(position).getImagePath3());
@@ -107,7 +108,6 @@ public class LikeHealthGridViewAdapter extends BaseAdapter {
 						} else {
 							Bundle bundle = new Bundle();
 							bundle.putInt("id", list.get(position).getKnowledgeID());
-							bundle.putString("title", list.get(position).getTitle());
 							bundle.putString("content", list.get(position).getContent());
 							bundle.putString("path", list.get(position).getVideoUrlPath());
 							KJActivity activity = (KJActivity)context;
