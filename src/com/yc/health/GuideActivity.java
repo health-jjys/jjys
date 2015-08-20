@@ -1,22 +1,18 @@
 package com.yc.health;
 
-import org.kymjs.kjframe.KJActivity;
-
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
+import cn.jpush.android.api.InstrumentedActivity;
+import cn.jpush.android.api.JPushInterface;
 
-public class GuideActivity extends KJActivity {
+public class GuideActivity extends InstrumentedActivity {
 
 	@Override
-	public void setRootView() {
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
 		setContentView(R.layout.guide);
-	}
-
-	@Override
-	public void initData() {
-		super.initData();
-		
 		new Handler().postDelayed(new Runnable() {
             public void run() {
                 Intent mainIntent = new Intent(GuideActivity.this, HomeActivity.class);
@@ -27,12 +23,16 @@ public class GuideActivity extends KJActivity {
 	}
 
 	@Override
-	public void initWidget() {
-		super.initWidget();
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//JPushInterface.onResume(this);
 	}
 
 	@Override
-	public void widgetClick(View v) {
-		super.widgetClick(v);
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		//JPushInterface.onPause(this);
+		super.onPause();
 	}
 }
